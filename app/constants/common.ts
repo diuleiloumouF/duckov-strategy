@@ -4,7 +4,7 @@ export const LANG = [
     'japanese',
 ];
 
-export const TAG_KEY = "tags" as const;
+export const TAG_KEY = "Tags" as const;
 export const CHARACTER_KEY = "Characters" as const;
 export const ITEM_KEY = "Items" as const;
 
