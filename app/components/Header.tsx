@@ -1,15 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import {usePathname} from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
     const pathname = usePathname();
 
     const navLinks = [
-        {href: '/', label: 'Home'},
-        {href: '/inventory', label: 'Inventory'},
-        {href: '/monsters', label: 'Monsters'},
+        { href: '/', label: 'Home' },
+        { href: '/inventory', label: 'Inventory' },
+        { href: '/monsters', label: 'Monsters' },
+        { href: '/quests', label: 'Quests' },
     ];
 
     const isActive = (href: string) => {
@@ -20,15 +21,12 @@ export default function Header() {
     };
 
     return (
-        <header
-            className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
             <nav className="max-w-7xl mx-auto">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo/Brand */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div
-                            className="text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-
+                        <div className="text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
                             逃离鸭科夫
                         </div>
                     </Link>

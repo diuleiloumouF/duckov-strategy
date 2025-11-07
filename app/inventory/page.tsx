@@ -1,15 +1,15 @@
-import ItemCard from "@/app/components/ItemCard";
-import Pagination from "@/app/components/Pagination";
-import SearchFilter from "@/app/components/SearchFilter";
-import {Item} from "@/app/types/item";
-import {fetchAllByFile, generateKeyValueFetch} from "@/app/utils/request";
-import {ITEM_KEY, LANG, TAG_KEY} from "@/app/constants";
+import ItemCard from '@/app/components/ItemCard';
+import Pagination from '@/app/components/Pagination';
+import SearchFilter from '@/app/components/SearchFilter';
+import { Item } from '@/app/types/item';
+import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
+import { ITEM_KEY, LANG, TAG_KEY } from '@/app/constants';
 import { Suspense } from 'react';
 
 const ITEMS_PER_PAGE = 20; // 分页
 
-const fetchTags = generateKeyValueFetch(TAG_KEY)
-const fetchItemI18 = generateKeyValueFetch(ITEM_KEY)
+const fetchTags = generateKeyValueFetch(TAG_KEY);
+const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
 
 interface HomeProps {
     searchParams: Promise<{ page?: string; search?: string; tags?: string }>;
@@ -29,8 +29,8 @@ export default async function Home({ searchParams }: HomeProps) {
     // Collect all unique tags for filter dropdown
     const allUniqueTags = Array.from(
         new Set(
-            allData.flatMap(item =>
-                item.tags.map(tag => tags?.[`Tag_${tag}`] || tag)
+            allData.flatMap((item) =>
+                item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag)
             )
         )
     ).sort();
@@ -40,10 +40,12 @@ export default async function Home({ searchParams }: HomeProps) {
 
     // Apply search filter
     if (searchTerm) {
-        filteredData = filteredData.filter(item => {
+        filteredData = filteredData.filter((item) => {
             const itemId = item.id.toString();
             const itemName = item.name.toLowerCase();
-            const itemDisplayName = (langs?.[item.displayName] || '').toLowerCase();
+            const itemDisplayName = (
+                langs?.[item.displayName] || ''
+            ).toLowerCase();
 
             return (
                 itemId.includes(searchTerm) ||
@@ -55,9 +57,13 @@ export default async function Home({ searchParams }: HomeProps) {
 
     // Apply tag filter
     if (selectedTags.length > 0) {
-        filteredData = filteredData.filter(item => {
-            const itemTags = item.tags.map(tag => tags?.[`Tag_${tag}`] || tag);
-            return selectedTags.every(selectedTag => itemTags.includes(selectedTag));
+        filteredData = filteredData.filter((item) => {
+            const itemTags = item.tags.map(
+                (tag) => tags?.[`Tag_${tag}`] || tag
+            );
+            return selectedTags.every((selectedTag) =>
+                itemTags.includes(selectedTag)
+            );
         });
     }
 
@@ -82,13 +88,19 @@ export default async function Home({ searchParams }: HomeProps) {
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
                         Total: {allData.length} items
-                        {totalItems !== allData.length && ` | Filtered: ${totalItems} items`}
-                        {totalItems > 0 && ` | Page ${validPage} of ${totalPages}`}
+                        {totalItems !== allData.length &&
+                            ` | Filtered: ${totalItems} items`}
+                        {totalItems > 0 &&
+                            ` | Page ${validPage} of ${totalPages}`}
                     </p>
                 </div>
 
                 {/* Search and Filter */}
-                <Suspense fallback={<div className="mb-6 h-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />}>
+                <Suspense
+                    fallback={
+                        <div className="mb-6 h-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+                    }
+                >
                     <SearchFilter allTags={allUniqueTags} />
                 </Suspense>
 
@@ -97,13 +109,22 @@ export default async function Home({ searchParams }: HomeProps) {
                     <>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                             {paginatedData.map((item: Item) => (
-                                <ItemCard tags={tags} langs={langs} item={item} key={item.id}/>
+                                <ItemCard
+                                    tags={tags}
+                                    langs={langs}
+                                    item={item}
+                                    key={item.id}
+                                />
                             ))}
                         </div>
 
                         {/* Pagination */}
                         {totalPages > 1 && (
-                            <Suspense fallback={<div className="mt-8 h-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />}>
+                            <Suspense
+                                fallback={
+                                    <div className="mt-8 h-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+                                }
+                            >
                                 <Pagination
                                     currentPage={validPage}
                                     totalPages={totalPages}
