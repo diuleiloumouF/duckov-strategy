@@ -9,7 +9,7 @@ export async function proxy(request: NextRequest) {
     const langs = request.headers.get('accept-language') || defaultLanguage;
     const language = langs?.split(",")?.[0] as Language || defaultLanguage;
     let cookieLocale = await getLocale();
-    if (decodeURIComponent(cookieLocale).indexOf(",") >= 0 || cookieLocale.toString() === "") {
+    if (decodeURIComponent(cookieLocale).indexOf(",") >= 0 || !cookieLocale) {
         cookieLocale = language
     }
     await setCookie(LANG_KEY, cookieLocale);
@@ -19,6 +19,6 @@ export async function proxy(request: NextRequest) {
 // See "Matching Paths" below to learn more
 export const config = {
     matcher: [
-        '/((?!api|_next/static|_next/image|favicon.ico).*)',
+        '/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.ico$).*)',
     ]
 }
