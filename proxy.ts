@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 import { getLocale, setCookie } from '@/app/actions/cookies';
 import { defaultLanguage, Language } from '@/app/i18n/config';
 import { LANG_KEY } from '@/app/constants';
+import { parseLang } from '@/app/utils/lang';
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
@@ -10,7 +11,7 @@ export async function proxy(request: NextRequest) {
     const language = langs?.split(",")?.[0] as Language || defaultLanguage;
     let cookieLocale = await getLocale();
     if (decodeURIComponent(cookieLocale).indexOf(",") >= 0 || !cookieLocale) {
-        cookieLocale = language
+        cookieLocale = parseLang(language);
     }
     await setCookie(LANG_KEY, cookieLocale);
     return NextResponse.next();
