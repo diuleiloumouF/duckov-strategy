@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getLocale, removeCookie, setCookie } from '@/app/actions/cookies';
+import { getLocale, setCookie } from '@/app/actions/cookies';
 import { defaultLanguage, Language } from '@/app/i18n/config';
 import { LANG_KEY } from '@/app/constants';
 
