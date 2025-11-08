@@ -9,7 +9,7 @@ export async function proxy(request: NextRequest) {
     const langs = request.headers.get('accept-language') || defaultLanguage;
     const language = langs?.split(",")?.[0] as Language || defaultLanguage;
     let cookieLocale = await getLocale();
-    if (decodeURIComponent(cookieLocale).indexOf(",") >= 0 || !cookieLocale) {
+    if (decodeURIComponent(cookieLocale).indexOf(",") >= 0 || cookieLocale.toString() === "") {
         cookieLocale = language
     }
     await setCookie(LANG_KEY, cookieLocale);
