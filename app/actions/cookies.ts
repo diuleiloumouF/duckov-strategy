@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { KeyValue } from '@/app/types/global';
 import { Language } from '@/app/i18n/config';
+import { LANG_KEY } from '@/app/constants';
 
 export async function getCookies(name: string) {
     const cookieStore = await cookies();
@@ -10,7 +11,7 @@ export async function getCookies(name: string) {
 }
 
 export async function getLocale(): Promise<Language> {
-    return await getCookies('locale') as Language;
+    return await getCookies(LANG_KEY) as Language;
 }
 
 export async function getAllCookies() {
