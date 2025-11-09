@@ -1,5 +1,3 @@
-import {getRequestConfig} from 'next-intl/server';
-
 import { GetStaticPaths } from 'next';
 import { Language, languageKeys } from '@/app/i18n/config';
 

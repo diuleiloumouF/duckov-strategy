@@ -133,7 +133,6 @@
     "item_detail_keywords": "アイテム詳細,装備情報,逃離鴨科夫",
     "item_not_found_title": "アイテムが見つかりません",
     "item_not_found_description": "このアイテムは存在しないか、削除されました"
-  }
   },
   "quality": {
     "common": "コモン",

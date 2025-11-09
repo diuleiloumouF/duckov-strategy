@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getLocale, setCookie } from '@/app/actions/cookies';
 import { defaultLanguage, Language } from '@/app/i18n/config';
-import { LANG_KEY, LOCALES } from '@/app/constants';
+import { LANG_KEY } from '@/app/constants';
 import { parseLang } from '@/app/utils/lang';
 import createMiddleware from 'next-intl/middleware';
 import { routing } from '@/app/i18n/routing';
