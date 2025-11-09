@@ -3,15 +3,44 @@ import { MonsterData } from '@/app/types/monster';
 import { Item } from '@/app/types/item';
 import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
 import { CHARACTER_KEY, ITEM_KEY } from '@/app/constants';
-import { getLocale } from '@/app/actions/cookies';
-import { getServerTranslation } from '@/app/i18n/server';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { generateStaticParams } from '@/lib/getStatic';
+import { Language } from '@/app/i18n/config';
 
 const fetchCharacter = generateKeyValueFetch(CHARACTER_KEY);
 const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
 
-export default async function MonstersPage() {
-    const lang = await getLocale();
-    const { t } = await getServerTranslation();
+export async function generateMetadata(): Promise<Metadata> {
+    const t = await getTranslations();
+    const lootData = fetchAllByFile<MonsterData>('loot.json');
+    const monstersCount = Object.keys(lootData).length;
+
+    const title = t('seo.monsters_title');
+    const description = t('seo.monsters_description', {
+        count: monstersCount.toString(),
+    });
+    const keywords = (t('seo.monsters_keywords')).split(',');
+
+    return {
+        title,
+        description,
+        keywords,
+        openGraph: {
+            title: `${title} | ${t('seo.site_name')}`,
+            description,
+            type: 'website',
+        },
+    };
+}
+
+export default async function MonstersPage({
+    params,
+}: {
+    params: Promise<{ locale: Language }>;
+}) {
+    const { locale: lang } = await params;
+    const t = await getTranslations();
     // Load loot.json
     const lootData = fetchAllByFile<MonsterData>('loot.json');
 
@@ -33,10 +62,10 @@ export default async function MonstersPage() {
             <main className="max-w-7xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                        {await t('monsters.monsters_enemies')}
+                        {t('monsters.monsters_enemies')}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
-                        {await t('common.total')}: {monsters.length} {await t('monsters.monsters')}
+                        {t('common.total')}: {monsters.length} {t('monsters.monsters')}
                     </p>
                 </div>
 
@@ -55,3 +84,6 @@ export default async function MonstersPage() {
         </div>
     );
 }
+
+export { generateStaticParams };
+export const dynamicParams = false;

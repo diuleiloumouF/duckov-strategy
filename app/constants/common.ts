@@ -11,6 +11,8 @@ export const languages = {
     'en': { name: 'English', dir: 'english' },
 } as const;
 
+export const LOCALES = Object.keys(languages);
+
 export const LANG_KEY = 'locale';
 
 export type EnumKeys =

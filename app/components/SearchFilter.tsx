@@ -8,7 +8,7 @@ import {
     useCallback,
     useRef,
 } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 interface SearchFilterProps {
     allTags: string[];
@@ -18,7 +18,7 @@ export default function SearchFilter({ allTags }: SearchFilterProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const filterRef = useRef<HTMLInputElement>(null);
-    const { t } = useTranslation();
+    const t = useTranslations();
 
     const [searchTerm, setSearchTerm] = useState(
         searchParams.get('search') || ''

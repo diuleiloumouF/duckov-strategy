@@ -1,26 +1,31 @@
-'use client';
-
 import Image from 'next/image';
-import Link from 'next/link';
 import { Monster } from '../types/monster';
 import { Item, KeyValue } from '../types/item';
 import { getName } from '@/app/components/ItemCard';
-import { useTranslation } from 'react-i18next';
+import { LocaleLink } from '@/app/components/LocaleLink';
 
-interface MonsterCardProps {
+import { getTranslations } from 'next-intl/server';
+import { PageParamsProps } from '@/app/types/router';
+import { Language } from '@/app/i18n/config';
+
+type MonsterCardProps = {
     monster: Monster;
     items: Item[];
     monsterLangs: KeyValue;
     itemsLangs: KeyValue;
-}
+} & PageParamsProps;
 
-export default function MonsterCard({
+export default async function MonsterCard({
     monster,
     items,
     monsterLangs,
     itemsLangs,
+    params
 }: MonsterCardProps) {
-    const { t } = useTranslation();
+    const p = await params;
+    const locale = p.locale as Language;
+
+    const t = await getTranslations();
 
     // Get items from drops
     const dropItems = monster.itemsToGenerate
@@ -183,7 +188,8 @@ export default function MonsterCard({
                         <div className="max-h-64 overflow-y-auto pr-1">
                             <div className="grid grid-cols-2 gap-2">
                                 {dropItems.map((dropItem, idx) => (
-                                    <Link
+                                    <LocaleLink
+                                        locale={locale}
                                         key={idx}
                                         href={`/inventory/${dropItem.item!.id}`}
                                         className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 h-14 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
@@ -212,7 +218,7 @@ export default function MonsterCard({
                                                 %
                                             </p>
                                         </div>
-                                    </Link>
+                                    </LocaleLink>
                                 ))}
                             </div>
                         </div>

@@ -1,22 +1,30 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { Item, KeyValue } from '../types/item';
+import { LocaleLink } from '@/app/components/LocaleLink';
+import { getQualityConfig } from '@/app/constants/quality';
+import { Language } from '@/app/i18n/config';
 
 interface ItemCardProps {
     item: Item;
     langs: KeyValue;
     tags: KeyValue;
+    qualityTranslations: KeyValue;
+    locale: Language;
 }
 
 export const getName = (langs: KeyValue, item: Item) => {
     return langs?.[item.displayName] || item.name;
 };
 
-export default function ItemCard({ item, langs, tags }: ItemCardProps) {
+export default async function ItemCard({ item, langs, locale, tags, qualityTranslations }: ItemCardProps)
+{
     const cnTag = item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag);
+    const qualityConfig = getQualityConfig(item.quality);
+    const qualityName = qualityTranslations[qualityConfig.nameKey] || qualityConfig.name;
+
     return (
-        <Link href={`/inventory/${item.id}`} className="block">
-            <div className="border flex-1/6 border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow dark:border-gray-700 h-[280px] flex flex-col hover:border-blue-400 dark:hover:border-blue-500">
+        <LocaleLink locale={locale} href={`/inventory/${item.id}`} className="block">
+            <div className={`border flex-1/6 rounded-lg p-4 hover:shadow-lg transition-shadow h-[300px] flex flex-col ${qualityConfig.borderColor}`}>
                 <div className="flex flex-col items-center gap-3 flex-1">
                     <div className="relative w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-700 rounded">
                         <Image
@@ -36,7 +44,10 @@ export default function ItemCard({ item, langs, tags }: ItemCardProps) {
                         <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 truncate">
                             {getName(langs, item)}
                         </h3>
-                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                        <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${qualityConfig.bgColor} ${qualityConfig.textColor} mt-1`}>
+                            {qualityName}: {item.quality}
+                        </span>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                             ID: {item.id}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 h-8">
@@ -61,6 +72,6 @@ export default function ItemCard({ item, langs, tags }: ItemCardProps) {
                     </div>
                 </div>
             </div>
-        </Link>
+        </LocaleLink>
     );
 }

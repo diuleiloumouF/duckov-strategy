@@ -1,13 +1,18 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
+import { LocaleLink } from '@/app/components/LocaleLink';
+import { Language } from '@/app/i18n/config';
 
-export default function Header() {
+type HeaderProps = {
+    locale: Language;
+}
+
+export default function Header({ locale }: HeaderProps) {
     const pathname = usePathname();
-    const { t } = useTranslation();
+    const t = useTranslations();
 
     const navLinks = [
         { href: '/', label: t('nav.home') },
@@ -17,10 +22,11 @@ export default function Header() {
     ];
 
     const isActive = (href: string) => {
+        const langPath = `/${locale}${href}`;
         if (href === '/') {
-            return pathname === '/';
+            return `${pathname}/` === langPath;
         }
-        return pathname.startsWith(href);
+        return pathname.startsWith(langPath);
     };
 
     return (
@@ -28,18 +34,19 @@ export default function Header() {
             <nav className="max-w-7xl mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo/Brand */}
-                    <Link href="/" className="flex items-center gap-3 group">
+                    <LocaleLink locale={locale} href="/" className="flex items-center gap-3 group">
                         <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors whitespace-nowrap">
                             逃离鸭科夫
                         </div>
-                    </Link>
+                    </LocaleLink>
 
                     {/* Navigation Links & Language Switcher */}
                     <div className="flex items-center gap-4">
                         {/* gap-1 会导致 lg:flex失效 */}
                         <div className="hidden lg:flex items-center">
                             {navLinks.map((link) => (
-                                <Link
+                                <LocaleLink
+                                    locale={locale}
                                     key={link.href}
                                     href={link.href}
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -49,7 +56,7 @@ export default function Header() {
                                     }`}
                                 >
                                     {link.label}
-                                </Link>
+                                </LocaleLink>
                             ))}
                         </div>
                         <LanguageSwitcher />

@@ -2,8 +2,12 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getLocale, setCookie } from '@/app/actions/cookies';
 import { defaultLanguage, Language } from '@/app/i18n/config';
-import { LANG_KEY } from '@/app/constants';
+import { LANG_KEY, LOCALES } from '@/app/constants';
 import { parseLang } from '@/app/utils/lang';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from '@/app/i18n/routing';
+
+const intlMiddleware = createMiddleware(routing);
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
@@ -14,7 +18,16 @@ export async function proxy(request: NextRequest) {
         cookieLocale = parseLang(language);
     }
     await setCookie(LANG_KEY, cookieLocale);
-    return NextResponse.next();
+
+    const pathname = request.nextUrl.pathname;
+
+    const response = NextResponse.next();
+
+    // 将当前路径存入 header
+    response.headers.set('x-current-pathname', pathname);
+    response.headers.set('x-current-url', request.url);
+
+    return intlMiddleware(request);
 }
 
 // See "Matching Paths" below to learn more

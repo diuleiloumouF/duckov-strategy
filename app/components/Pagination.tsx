@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 interface PaginationProps {
     currentPage: number;
@@ -15,7 +15,7 @@ export default function Pagination({
     totalPages,
     baseUrl,
 }: PaginationProps) {
-    const { t } = useTranslation();
+    const t = useTranslations();
     const searchParams = useSearchParams();
 
     // Build URL with current search params

@@ -3,9 +3,17 @@ import { GraphNode, parseQuestName } from '../types/quest';
 interface QuestListProps {
     quests: GraphNode[];
     searchTerm: string;
+    translations: {
+        showing: string;
+        of: string;
+        quests: string;
+        npc: string;
+        proxyQuest: string;
+        noResults: string;
+    };
 }
 
-export default function QuestList({ quests, searchTerm }: QuestListProps) {
+export default function QuestList({ quests, searchTerm, translations }: QuestListProps) {
     // Filter quests based on search term
     const filteredQuests = quests.filter((quest) => {
         if (!searchTerm) return true;
@@ -31,7 +39,7 @@ export default function QuestList({ quests, searchTerm }: QuestListProps) {
         <div className="space-y-4">
             {/* Stats */}
             <div className="text-sm text-gray-600 dark:text-gray-400">
-                Showing {filteredQuests.length} of {quests.length} quests
+                {translations.showing} {filteredQuests.length} {translations.of} {quests.length} {translations.quests}
             </div>
 
             {/* Quest List */}
@@ -82,7 +90,7 @@ export default function QuestList({ quests, searchTerm }: QuestListProps) {
                             {parsed.npc && (
                                 <div className="mb-2">
                                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                                        NPC:{' '}
+                                        {translations.npc}:{' '}
                                         <span className="font-medium text-gray-900 dark:text-gray-100">
                                             {parsed.npc}
                                         </span>
@@ -108,7 +116,7 @@ export default function QuestList({ quests, searchTerm }: QuestListProps) {
                             {quest.$type.includes('Proxy') && (
                                 <div className="mt-3">
                                     <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
-                                        Proxy Quest
+                                        {translations.proxyQuest}
                                     </span>
                                 </div>
                             )}
@@ -121,7 +129,7 @@ export default function QuestList({ quests, searchTerm }: QuestListProps) {
             {filteredQuests.length === 0 && (
                 <div className="text-center py-12">
                     <p className="text-xl text-gray-500 dark:text-gray-400">
-                        No quests found matching {searchTerm}
+                        {translations.noResults}
                     </p>
                 </div>
             )}

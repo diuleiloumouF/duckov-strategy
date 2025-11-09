@@ -5,8 +5,10 @@ import { Item } from '@/app/types/item';
 import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
 import { ITEM_KEY, TAG_KEY } from '@/app/constants';
 import { Suspense } from 'react';
-import { getLocale } from '@/app/actions/cookies';
-import { getServerTranslation } from '@/app/i18n/server';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { Language } from '@/app/i18n/config';
+import { PageParams } from '@/app/types/router';
 
 const ITEMS_PER_PAGE = 20; // 分页
 
@@ -15,20 +17,79 @@ const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
 
 interface HomeProps {
     searchParams: Promise<{ page?: string; search?: string; tags?: string }>;
+    params: PageParams;
 }
 
-export default async function Home({ searchParams }: HomeProps) {
+export async function generateMetadata({ searchParams }: HomeProps): Promise<Metadata> {
+    const t = await getTranslations();
     const params = await searchParams;
+    const allData = fetchAllByFile<Item[]>('items.json');
+    const itemsCount = allData.length;
     const currentPage = Number(params.page) || 1;
-    const searchTerm = params.search?.toLowerCase() || '';
+    const searchTerm = params.search || '';
     const selectedTags = params.tags?.split(',').filter(Boolean) || [];
-    const lang = await getLocale();
-    const { t } = await getServerTranslation();
+
+    let title = t('seo.inventory_title');
+    let description = t('seo.inventory_description', {
+        count: itemsCount.toString(),
+    });
+
+    if (searchTerm) {
+        title = t('seo.inventory_search_title', { term: searchTerm });
+        description = t('seo.inventory_search_description', {
+            term: searchTerm,
+        });
+    } else if (selectedTags.length > 0) {
+        const tagsStr = selectedTags.join(', ');
+        title = t('seo.inventory_filter_title', { tags: tagsStr });
+        description = t('seo.inventory_filter_description', {
+            tags: tagsStr,
+        });
+    } else if (currentPage > 1) {
+        title = t('seo.inventory_page_title', {
+            page: currentPage.toString(),
+        });
+    }
+
+    const keywords = (t('seo.inventory_keywords')).split(',');
+
+    return {
+        title,
+        description,
+        keywords,
+        openGraph: {
+            title: `${title} | ${t('seo.site_name')}`,
+            description,
+            type: 'website',
+        },
+    };
+}
+
+export default async function Home({ searchParams, params }: HomeProps) {
+    const sParams = await searchParams;
+    const localParams = await params;
+    const locale = localParams?.locale as Language;
+    const currentPage = Number(sParams.page) || 1;
+    const searchTerm = sParams.search?.toLowerCase() || '';
+    const selectedTags = sParams.tags?.split(',').filter(Boolean) || [];
+    const t = await getTranslations();
 
     // Fetch all data
     const allData = fetchAllByFile<Item[]>('items.json');
-    const langs = fetchItemI18(lang);
-    const tags = fetchTags(lang);
+    const langs = fetchItemI18(locale);
+    const tags = fetchTags(locale);
+
+    // Prepare quality translations
+    const qualityTranslations = {
+        'quality.common': t('quality.common'),
+        'quality.uncommon': t('quality.uncommon'),
+        'quality.rare': t('quality.rare'),
+        'quality.epic': t('quality.epic'),
+        'quality.legendary': t('quality.legendary'),
+        'quality.mythic': t('quality.mythic'),
+        'quality.special': t('quality.special'),
+        'quality.system': t('quality.system'),
+    };
 
     // Collect all unique tags for filter dropdown
     const allUniqueTags = Array.from(
@@ -88,14 +149,14 @@ export default async function Home({ searchParams }: HomeProps) {
             <main className="max-w-7xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                        {await t('inventory.title')}
+                        {t('inventory.title')}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
-                        {await t('common.total')}: {allData.length} {await t('inventory.items')}
+                        {t('common.total')}: {allData.length} {t('inventory.items')}
                         {totalItems !== allData.length &&
-                            ` | ${await t('common.filtered')}: ${totalItems} ${await t('inventory.items')}`}
+                            ` | ${t('common.filtered')}: ${totalItems} ${t('inventory.items')}`}
                         {totalItems > 0 &&
-                            ` | ${await t('common.page')} ${validPage} ${await t('common.of')} ${totalPages}`}
+                            ` | ${t('common.page')} ${validPage} ${t('common.of')} ${totalPages}`}
                     </p>
                 </div>
 
@@ -114,9 +175,11 @@ export default async function Home({ searchParams }: HomeProps) {
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                             {paginatedData.map((item: Item) => (
                                 <ItemCard
+                                    locale={locale}
                                     tags={tags}
                                     langs={langs}
                                     item={item}
+                                    qualityTranslations={qualityTranslations}
                                     key={item.id}
                                 />
                             ))}
@@ -140,10 +203,10 @@ export default async function Home({ searchParams }: HomeProps) {
                 ) : (
                     <div className="text-center py-12">
                         <p className="text-xl text-gray-500 dark:text-gray-400">
-                            {await t('inventory.no_results')}
+                            {t('inventory.no_results')}
                         </p>
                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
-                            {await t('inventory.try_adjust_filters')}
+                            {t('inventory.try_adjust_filters')}
                         </p>
                     </div>
                 )}

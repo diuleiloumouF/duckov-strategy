@@ -2,16 +2,25 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { type Language, languageKeys } from '../i18n/config';
-import { changeLanguage, getStoredLanguage } from '../i18n/client';
+import { getStoredLanguage, changeLanguage } from '../i18n/client';
 import { languages } from '@/app/constants';
+import {useRouter, usePathname} from '@/app/i18n/navigation';
+import { useLocale } from 'use-intl';
 
 export default function LanguageSwitcher() {
     const [isOpen, setIsOpen] = useState(false);
-    const [currentLang, setCurrentLang] = useState<Language>('zh-CN');
+    const locale = useLocale() as Language;
+    const pathname = usePathname().replace(locale, '');
+    const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
+
+    const router = useRouter();
+    const [currentLang, setCurrentLang] = useState<Language>(locale);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
+    // 初始化设置一次
     const handleLanguages = useCallback(async () => {
         const stored = await getStoredLanguage();
+        console.log(stored, 'stored');
         setCurrentLang(stored);
         await changeLanguage(stored);
     }, []);
@@ -44,6 +53,7 @@ export default function LanguageSwitcher() {
         setCurrentLang(lang);
         await changeLanguage(lang);
         setIsOpen(false);
+        router.replace(pathWithoutLocale, {locale: lang as Language});
     };
 
     return (
