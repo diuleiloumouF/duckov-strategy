@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { PageParams } from '@/app/types/router';
 
 export type KeyValue = {
     [key: string]: string;
@@ -7,5 +6,5 @@ export type KeyValue = {
 
 export type LocaleRouter = Readonly<{
     children?: ReactNode;
-    params: PageParams;
+    params: Promise<{locale: string}>;
 }>

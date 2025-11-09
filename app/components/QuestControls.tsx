@@ -2,11 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-
-export enum QuestType {
-    LIST = 'list',
-    GRAPH = 'graph',
-}
+import { QuestType } from '@/app/constants/quest';
 
 export default function QuestControls() {
     const searchParams = useSearchParams();

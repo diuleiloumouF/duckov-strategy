@@ -5,7 +5,6 @@ import { getName } from '@/app/components/ItemCard';
 import { LocaleLink } from '@/app/components/LocaleLink';
 
 import { getTranslations } from 'next-intl/server';
-import { PageParamsProps } from '@/app/types/router';
 import { Language } from '@/app/i18n/config';
 
 type MonsterCardProps = {
@@ -13,18 +12,16 @@ type MonsterCardProps = {
     items: Item[];
     monsterLangs: KeyValue;
     itemsLangs: KeyValue;
-} & PageParamsProps;
+    locale: Language;
+};
 
 export default async function MonsterCard({
     monster,
     items,
     monsterLangs,
     itemsLangs,
-    params
+    locale,
 }: MonsterCardProps) {
-    const p = await params;
-    const locale = p.locale as Language;
-
     const t = await getTranslations();
 
     // Get items from drops

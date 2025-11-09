@@ -53,7 +53,6 @@ export function parseQuestName(name: string): ParsedQuestName {
     const secondLine = lines[1] || '';
     const unlock = lines[2];
 
-    // Extract quest ID and title
     const idMatch = firstLine.match(/#(\S+)\s+(.+?)\s+\[(.+?)]/);
     const questId = idMatch?.[1] || '';
     const title = idMatch?.[2] || firstLine;

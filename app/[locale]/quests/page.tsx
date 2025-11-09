@@ -3,12 +3,11 @@ import { IQuestGraph } from '@/app/types/quest';
 import QuestGraph from '@/app/components/QuesGraph';
 import { fetchAllByFile } from '@/app/utils/request';
 import { getTranslations } from 'next-intl/server';
-import QuestControls, { QuestType } from '@/app/components/QuestControls';
+import QuestControls from '@/app/components/QuestControls';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { generateStaticParams } from '@/lib/getStatic';
-
-
+import { QuestType } from '@/app/constants/quest';
 
 interface QuestsPageProps {
     searchParams: Promise<{
@@ -40,7 +39,6 @@ export default async function QuestsPage({ searchParams }: QuestsPageProps) {
     const params = await searchParams;
     const searchTerm = params.search || '';
     const viewMode = params.view || QuestType.LIST;
-
     const questData = fetchAllByFile<IQuestGraph>('quest.json');
     const t = await getTranslations();
 
