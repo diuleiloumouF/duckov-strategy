@@ -722,7 +722,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                                 </div>
                                 <div className="px-6 py-4">
                                     <div className="max-h-150 overflow-y-auto pr-1">
-                                        <div className="grid grid-cols-4 gap-2">
+                                        <div className="grid grid-cols-10 gap-2">
                                             {allKeys.map(
                                                 (key) => {
                                                     // Find master key item from items.json (usually items with "MasterKey" tag)
@@ -740,6 +740,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                                                     return (
                                                         keyItem && (
                                                             <ItemLink
+                                                                className="flex-col h-17 pt-4"
                                                                 qualityBorder
                                                                 itemsLangs={
                                                                     itemsLangs

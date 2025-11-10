@@ -23,16 +23,17 @@ export type ItemLinkProps = {
     extra?: React.ReactNode;
     qualityBorder?: boolean;
     disabled?: boolean;
+    className?: string;
 }
 
-export function ItemLink({ locale, item, itemsLangs, extra, qualityBorder, disabled }: ItemLinkProps){
+export function ItemLink({ locale, item, itemsLangs, extra, qualityBorder, disabled, className }: ItemLinkProps){
     const qualityConfig = getQualityConfig(item.quality);
     const borderColor =  qualityBorder ? qualityConfig.borderColor: '';
     const color = disabled ? 'grayscale' : borderColor;
     return <LocaleLink
         locale={locale}
         href={`/inventory/${item!.id}`}
-        className={`${color} flex items-center justify-center gap-2  p-2 bg-gray-50 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 h-14 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors`}
+        className={`${color} flex items-center  justify-center gap-2  p-2 bg-gray-50 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 h-14 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors ${className}`}
     >
         <div className='relative w-8 h-8 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded'>
             <Image

@@ -145,8 +145,8 @@ Item_Bullet_AR_S_Dumdums,S-达姆弹
 Item_Bullet_AR_S_Burn,S-燃烧弹
 Item_Bullet_SHOT_Normal,霰弹-鹿弹
 Item_Quest_Letter_Explorer,探索者的信
-Item_Key_Dormitory103,宿舍楼103钥匙(DEMO不可用)
-Item_Key_Dormitory106,宿舍楼106钥匙(DEMO不可用)
+Item_Key_Dormitory103,宿舍楼103钥匙
+Item_Key_Dormitory106,宿舍楼106钥匙
 Item_Bullet_AR_L_Poison,L-涂毒弹
 Item_Bullet_AR_L_Piercing5,L-高级穿甲弹
 Item_Bullet_AR_S_Piercing2,S-穿甲弹
