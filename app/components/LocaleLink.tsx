@@ -1,5 +1,5 @@
 import Link, { LinkProps } from 'next/link';
-import React, { ReactNode } from 'react';
+import React, { HTMLProps, ReactNode } from 'react';
 import { Language } from '@/app/i18n/config';
 
 type LocaleLinkProps = LinkProps  &{
@@ -9,5 +9,8 @@ type LocaleLinkProps = LinkProps  &{
 }
 
 export const  LocaleLink: React.FC<LocaleLinkProps> = ({ children, locale, href, ...props }) => {
+    if (!href){
+        return <div {...(props as HTMLProps<HTMLDivElement>)}>{children}</div>
+    }
     return <Link href={`/${locale}${href}`} {...props}>{children}</Link>;
 };

@@ -1,8 +1,6 @@
-import Image from 'next/image';
 import { Monster } from '../types/monster';
 import { Item, KeyValue } from '../types/item';
-import { getName } from '@/app/components/ItemCard';
-import { LocaleLink } from '@/app/components/LocaleLink';
+import { ItemLink } from '@/app/components/ItemCard';
 
 import { getTranslations } from 'next-intl/server';
 import { Language } from '@/app/i18n/config';
@@ -52,7 +50,7 @@ export default async function MonsterCard({
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                             {enName}
-                            {/*/{monster.m_Name}*/}
+                            {/*/{monster.ts.m_Name}*/}
                         </p>
                     </div>
                 </div>
@@ -185,37 +183,12 @@ export default async function MonsterCard({
                         <div className="max-h-64 overflow-y-auto pr-1">
                             <div className="grid grid-cols-2 gap-2">
                                 {dropItems.map((dropItem, idx) => (
-                                    <LocaleLink
-                                        locale={locale}
-                                        key={idx}
-                                        href={`/inventory/${dropItem.item!.id}`}
-                                        className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 h-14 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                                    >
-                                        <div className="relative w-8 h-8 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded">
-                                            <Image
-                                                src={`/images/${dropItem.item!.icon}`}
-                                                alt={dropItem.item!.displayName}
-                                                fill
-                                                loading="lazy"
-                                                className="object-contain"
-                                                sizes="32px"
-                                            />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
-                                                {getName(
-                                                    itemsLangs,
-                                                    dropItem.item as Item
-                                                )}
-                                            </p>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                {(
-                                                    dropItem.chance * 100
-                                                ).toFixed(1)}
-                                                %
-                                            </p>
-                                        </div>
-                                    </LocaleLink>
+                                    <ItemLink extra={<p className="text-xs text-gray-500 dark:text-gray-400">
+                                        {(
+                                            dropItem.chance * 100
+                                        ).toFixed(1)}
+                                        %
+                                    </p>} locale={locale} key={idx} item={dropItem.item as unknown as Item} itemsLangs={itemsLangs}/>
                                 ))}
                             </div>
                         </div>

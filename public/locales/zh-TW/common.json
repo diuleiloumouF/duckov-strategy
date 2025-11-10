@@ -143,5 +143,71 @@
     "mythic": "神話",
     "special": "特殊",
     "system": "系統"
+  },
+  "archived": {
+    "title": "存檔解析器",
+    "subtitle": "上傳 .sav 存檔檔案以查看詳細資訊",
+    "game_version": "適用遊戲版本1.0.33",
+    "upload": {
+      "button": "選擇存檔檔案",
+      "drag_drop": "或拖曳檔案到此處",
+      "format": "僅支援 .sav 格式",
+      "loading": "正在解析存檔...",
+      "error_format": "僅支援 .sav 格式的存檔檔案",
+      "error_parse": "檔案解析失敗，請確保上傳的是有效的存檔檔案"
+    },
+    "basic_info": {
+      "title": "基本資訊",
+      "version": "版本",
+      "level": "等級",
+      "exp": "經驗",
+      "money": "金幣",
+      "days": "遊戲天數",
+      "save_time": "儲存時間",
+      "hp": "HP"
+    },
+    "master_keys": {
+      "title": "鑰匙",
+      "activated": "已啟動",
+      "not_activated": "未啟動",
+      "key_number": "鑰匙 #"
+    },
+    "quests": {
+      "title": "任務資訊",
+      "active": "進行中",
+      "completed": "已完成"
+    },
+    "kills": {
+      "title": "擊殺統計",
+      "count": "擊殺"
+    },
+    "inventory": {
+      "title": "背包",
+      "capacity": "容量",
+      "items_count": "物品數",
+      "total_value": "總價值",
+      "loading": "載入物品資料中...",
+      "empty": "暫無物品",
+      "sort_by": "排序",
+      "sort": {
+        "default": "預設",
+        "value": "按價值",
+        "rarity": "按稀有度"
+      }
+    },
+    "storage": {
+      "title": "倉庫",
+      "capacity": "容量",
+      "items_count": "物品數",
+      "loading": "載入物品資料中...",
+      "empty": "暫無物品"
+    },
+    "dog_inventory": {
+      "title": "狗狗背包"
+    },
+    "death_list": {
+      "title": "死亡記錄",
+      "count": "死亡次數"
+    }
   }
 }

@@ -144,5 +144,71 @@
     "mythic": "Mythic",
     "special": "Special",
     "system": "System"
+  },
+  "archived": {
+    "title": "Save File Parser",
+    "subtitle": "Upload .sav save file to view detailed information",
+    "game_version": "Compatible with game version 1.0.33",
+    "upload": {
+      "button": "Select Save File",
+      "drag_drop": "or drag and drop file here",
+      "format": "Only .sav format supported",
+      "loading": "Parsing save file...",
+      "error_format": "Only .sav format save files are supported",
+      "error_parse": "Failed to parse file, please ensure you uploaded a valid save file"
+    },
+    "basic_info": {
+      "title": "Basic Information",
+      "version": "Version",
+      "level": "Level",
+      "exp": "Experience",
+      "money": "Money",
+      "days": "Days",
+      "save_time": "Save Time",
+      "hp": "HP"
+    },
+    "master_keys": {
+      "title": "Master Keys",
+      "activated": "Activated",
+      "not_activated": "Not Activated",
+      "key_number": "Key #"
+    },
+    "quests": {
+      "title": "Quest Information",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "kills": {
+      "title": "Kill Statistics",
+      "count": "Kills"
+    },
+    "inventory": {
+      "title": "Inventory",
+      "capacity": "Capacity",
+      "items_count": "Items",
+      "total_value": "Total Value",
+      "loading": "Loading items data...",
+      "empty": "No items",
+      "sort_by": "Sort",
+      "sort": {
+        "default": "Default",
+        "value": "By Value",
+        "rarity": "By Rarity"
+      }
+    },
+    "storage": {
+      "title": "Storage",
+      "capacity": "Capacity",
+      "items_count": "Items",
+      "loading": "Loading items data...",
+      "empty": "No items"
+    },
+    "dog_inventory": {
+      "title": "Dog Inventory"
+    },
+    "death_list": {
+      "title": "Death Record",
+      "count": "Deaths"
+    }
   }
 }

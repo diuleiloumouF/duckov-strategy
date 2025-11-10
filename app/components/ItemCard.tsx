@@ -16,6 +16,45 @@ export const getName = (langs: KeyValue, item: Item) => {
     return langs?.[item.displayName] || item.name;
 };
 
+export type ItemLinkProps = {
+    locale: Language;
+    item: Item;
+    itemsLangs: KeyValue;
+    extra?: React.ReactNode;
+    qualityBorder?: boolean;
+}
+
+export function ItemLink({ locale, item, itemsLangs, extra, qualityBorder }: ItemLinkProps){
+    const qualityConfig = getQualityConfig(item.quality);
+    const borderColor = qualityBorder ? qualityConfig.borderColor: '';
+
+    return <LocaleLink
+        locale={locale}
+        href={`/inventory/${item!.id}`}
+        className={`${borderColor} flex items-center justify-center gap-2  p-2 bg-gray-50 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 h-14 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors`}
+    >
+        <div className='relative w-8 h-8 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded'>
+            <Image
+                src={`/images/${item!.icon}`}
+                alt={item!.displayName}
+                fill
+                loading="lazy"
+                className="object-contain"
+                sizes="32px"
+            />
+        </div>
+        <div className="flex-1 min-w-0">
+            <p className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
+                {getName(
+                    itemsLangs,
+                    item as Item
+                )}
+            </p>
+            {extra}
+        </div>
+    </LocaleLink>
+}
+
 export default async function ItemCard({ item, langs, locale, tags, qualityTranslations }: ItemCardProps)
 {
     const cnTag = item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag);

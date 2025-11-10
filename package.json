@@ -4,12 +4,13 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "build": "npm run build:wasm && next build",
         "start": "next start",
         "lint": "eslint",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "build:wasm": "cd wgpu-renderer && wasm-pack build --target web"
+        "build:wasm": "cd wgpu-renderer && wasm-pack build --target web",
+        "build:save": "cd savefile-parse && wasm-pack build --target web"
     },
     "dependencies": {
         "@xyflow/react": "^12.9.2",

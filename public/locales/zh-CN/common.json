@@ -3,7 +3,11 @@
     "home": "首页",
     "inventory": "物品",
     "monsters": "敌人",
-    "quests": "任务"
+    "quests": "任务",
+    "archived": "存档"
+  },
+  "button":  {
+    "back": "返回"
   },
   "inventory": {
     "title": "物品库",
@@ -144,5 +148,91 @@
     "mythic": "神话",
     "special": "特殊",
     "system": "系统"
+  },
+  "slot": {
+    "PrimaryWeapon": "枪械",
+    "SecondaryWeapon": "枪械",
+    "MeleeWeapon": "近战武器",
+    "Helmat": "头部",
+    "Armor": "身体",
+    "FaceMask": "面部",
+    "Backpack": "背包",
+    "Totem1": "图腾",
+    "Totem2": "图腾",
+    "Headset": "耳机",
+    "accessories": {
+      "Scope": "瞄具",
+      "Muzzle": "枪口",
+      "Grip": "握把",
+      "Stock": "枪托",
+      "Tec": "战术",
+      "Mag": "弹夹"
+    }
+  },
+  "archived": {
+    "title": "存档解析器",
+    "subtitle": "上传 .sav 存档文件以查看详细信息",
+    "game_version": "适用游戏版本1.0.33(可能存在解析问题)",
+    "upload": {
+      "button": "选择存档文件",
+      "drag_drop": "或拖拽文件到此处",
+      "format": "仅支持 .sav 格式",
+      "loading": "正在解析存档...",
+      "error_format": "仅支持 .sav 格式的存档文件",
+      "error_parse": "文件解析失败，请确保上传的是有效的存档文件"
+    },
+    "basic_info": {
+      "title": "基本信息",
+      "version": "版本",
+      "level": "等级",
+      "exp": "经验",
+      "money": "金币",
+      "days": "游戏天数",
+      "save_time": "保存时间",
+      "hp": "HP"
+    },
+    "master_keys": {
+      "title": "钥匙",
+      "activated": "已激活",
+      "not_activated": "未激活",
+      "key_number": "钥匙 #"
+    },
+    "quests": {
+      "title": "任务信息",
+      "active": "进行中",
+      "completed": "已完成"
+    },
+    "kills": {
+      "title": "击杀统计",
+      "count": "击杀"
+    },
+    "inventory": {
+      "title": "背包",
+      "capacity": "容量",
+      "items_count": "物品数",
+      "total_value": "总价值",
+      "loading": "加载物品数据中...",
+      "empty": "暂无物品",
+      "sort_by": "排序",
+      "sort": {
+        "default": "默认",
+        "value": "按价值",
+        "rarity": "按稀有度"
+      }
+    },
+    "storage": {
+      "title": "仓库",
+      "capacity": "容量",
+      "items_count": "物品数",
+      "loading": "加载物品数据中...",
+      "empty": "暂无物品"
+    },
+    "dog_inventory": {
+      "title": "狗狗背包"
+    },
+    "death_list": {
+      "title": "死亡记录",
+      "count": "死亡次数"
+    }
   }
 }

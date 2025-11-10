@@ -51,7 +51,7 @@ export default async function MonstersPage({
     const langs = fetchCharacter(lang);
     const itemI18 = fetchItemI18(lang);
 
-    // Convert monster data object to array
+    // Convert monster.ts data object to array
     const monsters = Object.entries(lootData).map(([key, monster]) => ({
         ...monster,
         key,

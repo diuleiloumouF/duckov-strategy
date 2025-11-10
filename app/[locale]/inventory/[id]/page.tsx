@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { Item } from '@/app/types/item';
 import { MonsterData } from '@/app/types/monster';
 import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
@@ -10,6 +9,7 @@ import { getQualityConfig } from '@/app/constants/quality';
 import { findMonsterDropSources } from '@/app/utils/monster';
 import { PageParamsProps } from '@/app/types/router';
 import { Language } from '@/app/i18n/config';
+import { GoBack } from '@/app/components/ClientProxy';
 
 const fetchTags = generateKeyValueFetch(TAG_KEY);
 const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
@@ -86,12 +86,7 @@ export default async function ItemDetailPage(
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
                 <main className="max-w-4xl mx-auto">
                     <div className="mb-6">
-                        <Link
-                            href="/inventory"
-                            className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                        >
-                            ← {t('inventory.back_to_inventory')}
-                        </Link>
+                        <GoBack/>
                     </div>
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-8 text-center">
                         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
@@ -110,7 +105,7 @@ export default async function ItemDetailPage(
     const qualityConfig = getQualityConfig(item.quality);
     const qualityName = t(qualityConfig.nameKey);
 
-    // Find monster drop sources
+    // Find monster.ts drop sources
     const lootData = fetchAllByFile<MonsterData>('loot.json');
     const monsterDrops = findMonsterDropSources(item.id, lootData);
     const monsterLangs = fetchCharacter(locale as Language);
@@ -120,12 +115,7 @@ export default async function ItemDetailPage(
             <main className="max-w-4xl mx-auto">
                 {/* Back Button */}
                 <div className="mb-6">
-                    <Link
-                        href="/inventory"
-                        className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2"
-                    >
-                        ← { t('inventory.back_to_inventory')}
-                    </Link>
+                    <GoBack/>
                 </div>
 
                 {/* Item Detail Card */}

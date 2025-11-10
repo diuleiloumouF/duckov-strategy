@@ -143,5 +143,71 @@
     "mythic": "ミシック",
     "special": "スペシャル",
     "system": "システム"
+  },
+  "archived": {
+    "title": "セーブファイル解析",
+    "subtitle": ".savセーブファイルをアップロードして詳細情報を表示",
+    "game_version": "対応ゲームバージョン1.0.33",
+    "upload": {
+      "button": "セーブファイルを選択",
+      "drag_drop": "またはファイルをここにドラッグ",
+      "format": ".sav形式のみサポート",
+      "loading": "セーブファイルを解析中...",
+      "error_format": ".sav形式のセーブファイルのみサポートされています",
+      "error_parse": "ファイルの解析に失敗しました。有効なセーブファイルをアップロードしてください"
+    },
+    "basic_info": {
+      "title": "基本情報",
+      "version": "バージョン",
+      "level": "レベル",
+      "exp": "経験値",
+      "money": "お金",
+      "days": "日数",
+      "save_time": "保存時刻",
+      "hp": "HP"
+    },
+    "master_keys": {
+      "title": "マスターキー",
+      "activated": "アクティブ",
+      "not_activated": "非アクティブ",
+      "key_number": "キー #"
+    },
+    "quests": {
+      "title": "クエスト情報",
+      "active": "進行中",
+      "completed": "完了"
+    },
+    "kills": {
+      "title": "キル統計",
+      "count": "キル"
+    },
+    "inventory": {
+      "title": "インベントリ",
+      "capacity": "容量",
+      "items_count": "アイテム数",
+      "total_value": "合計価値",
+      "loading": "アイテムデータを読み込み中...",
+      "empty": "アイテムなし",
+      "sort_by": "ソート",
+      "sort": {
+        "default": "デフォルト",
+        "value": "価値順",
+        "rarity": "レアリティ順"
+      }
+    },
+    "storage": {
+      "title": "ストレージ",
+      "capacity": "容量",
+      "items_count": "アイテム数",
+      "loading": "アイテムデータを読み込み中...",
+      "empty": "アイテムなし"
+    },
+    "dog_inventory": {
+      "title": "犬のインベントリ"
+    },
+    "death_list": {
+      "title": "死亡記録",
+      "count": "死亡回数"
+    }
   }
 }

@@ -19,6 +19,7 @@ export default function Header({ locale }: HeaderProps) {
         { href: '/inventory', label: t('nav.inventory') },
         { href: '/monsters', label: t('nav.monsters') },
         { href: '/quests', label: t('nav.quests') },
+        { href: '/archived', label: t('nav.archived') },
     ];
 
     const isActive = (href: string) => {

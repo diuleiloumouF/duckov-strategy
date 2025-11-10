@@ -10,7 +10,7 @@ export interface MonsterDropSource {
 /**
  * Find all monsters that drop a specific item
  * @param itemId - The item type ID to search for
- * @param lootData - The monster loot data
+ * @param lootData - The monster.ts loot data
  * @returns Array of monsters that drop this item with their drop chances
  */
 export function findMonsterDropSources(
