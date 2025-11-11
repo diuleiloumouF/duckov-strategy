@@ -6,6 +6,7 @@ import {NextIntlClientProvider} from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { Language } from '@/app/i18n/config';
 import { generateStaticParams } from '@/lib/getStatic';
+import { Analytics } from '@vercel/analytics/next';
 
 import {Geist, Geist_Mono} from "next/font/google";
 import { LocaleRouter } from '@/app/types/global';
@@ -116,6 +117,7 @@ export default async function RootLayout({
                 <NextIntlClientProvider>
                     <Header locale={locale as Language}/>
                     {children}
+                    <Analytics />
                 </NextIntlClientProvider>
             </body>
         </html>
