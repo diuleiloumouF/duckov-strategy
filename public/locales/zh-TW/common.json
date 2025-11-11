@@ -3,7 +3,8 @@
     "home": "首頁",
     "inventory": "物品",
     "monsters": "怪物",
-    "quests": "任務"
+    "quests": "任務",
+    "archived": "存檔"
   },
   "inventory": {
     "title": "物品庫",

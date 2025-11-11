@@ -3,7 +3,8 @@
     "home": "Home",
     "inventory": "Inventory",
     "monsters": "Monsters",
-    "quests": "Quests"
+    "quests": "Quests",
+    "archived": "Archived"
   },
   "inventory": {
     "title": "Inventory",

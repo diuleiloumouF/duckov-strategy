@@ -142,7 +142,8 @@
     "legendary": "レジェンダリー",
     "mythic": "ミシック",
     "special": "スペシャル",
-    "system": "システム"
+    "system": "システム",
+    "archived": "アーカイブ"
   },
   "archived": {
     "title": "セーブファイル解析",
