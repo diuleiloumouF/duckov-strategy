@@ -67,7 +67,7 @@
     "elec": "电击",
     "space": "空间",
     "ghost": "幽灵",
-    "drops_items": "掉落物（{count} 个物品）"
+    "drops_items": "相同颜色的物品共享一个掉落槽位（同一槽位中只会掉落一种物品）"
   },
   "quests": {
     "title": "任务",

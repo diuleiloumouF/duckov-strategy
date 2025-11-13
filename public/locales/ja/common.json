@@ -63,7 +63,7 @@
     "elec": "電撃",
     "space": "空間",
     "ghost": "ゴースト",
-    "drops_items": "ドロップアイテム（{count} 個）"
+    "drops_items": "ドロップアイテム"
   },
   "quests": {
     "title": "クエスト",

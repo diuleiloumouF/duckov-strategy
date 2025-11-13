@@ -4,6 +4,7 @@ import { ItemLink } from '@/app/components/ItemCard';
 
 import { getTranslations } from 'next-intl/server';
 import { Language } from '@/app/i18n/config';
+import React from 'react';
 
 type MonsterCardProps = {
     monster: Monster;
@@ -22,27 +23,45 @@ export default async function MonsterCard({
 }: MonsterCardProps) {
     const t = await getTranslations();
 
-    // Get items from drops
+    // item有2层爆率
     const dropItems = monster.itemsToGenerate
-        .flatMap((drop) =>
-            drop.itemPool.entries.map((entry) => {
-                const item = items.find((i) => i.id === entry.value.itemTypeID);
-                // 隐藏玩家不可见
-                if (item?.tags.includes("DestroyOnLootBox")) {
+        .map((drop) => {
+            const entries = drop.itemPool.entries;
+            const hasPer = entries?.some((item) => item.percent); // 有掉率
+            const needCalPer = !hasPer; // 需要计算
+            const itemPools = entries
+                .flatMap((entry) => {
+                    const item = items.find(
+                        (i) => i.id === entry.value.itemTypeID
+                    );
+                    // 隐藏玩家不可见
+                    if (item?.tags.includes('DestroyOnLootBox')) {
+                        return {
+                            item: undefined,
+                        };
+                    }
+                    const chance = entry?.percent
+                        ? Number(entry.percent.replace('%', '')) / 100
+                        : needCalPer
+                          ? 1 / entries.length
+                          : drop.chance;
+
                     return {
-                        item: undefined
+                        item,
+                        chance,
                     };
-                }
-                const chance = entry?.percent ? Number(entry.percent.replace("%", '') ) / 100 : drop.chance;
-                return {
-                    item,
-                    chance,
-                    weight: entry.weight,
-                    comment: drop.comment,
-                };
-            })
-        )
-        .filter((dropItem) => dropItem.item);
+                })
+                .filter((obj) => obj?.item);
+
+            return {
+                chance: drop.chance,
+                itemPools,
+                // weight: entry.weight,
+                comment: drop.comment,
+            };
+        })
+        .filter((dropItem) => dropItem.itemPools);
+
     const enName = monster.nameKey || monster.m_Name;
 
     return (
@@ -186,16 +205,76 @@ export default async function MonsterCard({
                                 count: dropItems.length,
                             })}
                         </h4>
-                        <div className="max-h-64 overflow-y-auto pr-1">
-                            <div className="grid grid-cols-2 gap-2">
-                                {dropItems.map((dropItem, idx) => (
-                                    <ItemLink extra={<p className="text-xs text-gray-500 dark:text-gray-400">
-                                        {(
-                                            (dropItem?.chance || 0) * 100
-                                        ).toFixed(1)}
-                                        %
-                                    </p>} locale={locale} key={idx} item={dropItem.item as unknown as Item} itemsLangs={itemsLangs}/>
-                                ))}
+                        <div className="max-h-64 overflow-y-auto pr-1 relative">
+                            <div className="grid  grid-cols-2 gap-2">
+                                {dropItems.map((dropItem, ix) => {
+                                    const mapping = [
+                                        'border-pink-300 dark:border-pink-300',
+                                        'border-orange-200 dark:border-orange-200',
+                                        'border-emerald-300 dark:border-emerald-300',
+                                        'border-cyan-300 dark:border-cyan-300',
+                                    ];
+                                    const group_show =
+                                        dropItem.itemPools.length > 1;
+                                    const tipShow =
+                                        group_show && dropItem.chance < 1;
+
+                                    const color = !group_show
+                                        ? undefined
+                                        : mapping[ix % 3];
+
+                                    // 生成svg连起来
+                                    return dropItem.itemPools.map(
+                                        (itemPool, idx) => {
+                                            return (
+                                                <ItemLink
+                                                    border={color}
+                                                    key={`${ix}-${idx}-${itemPool.item?.id}`}
+                                                    extra={
+                                                        <p
+                                                            className={`text-xs text-gray-500 dark:text-gray-400`}
+                                                        >
+                                                            {tipShow ? (
+                                                                <>
+                                                                    <span>
+                                                                        {dropItem.chance *
+                                                                            100}
+                                                                        %
+                                                                    </span>
+                                                                    x(
+                                                                    {(
+                                                                        (itemPool?.chance ||
+                                                                            0) *
+                                                                        100
+                                                                    ).toFixed(
+                                                                        2
+                                                                    )}
+                                                                    %)
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    {(
+                                                                        (itemPool?.chance ||
+                                                                            0) *
+                                                                        100
+                                                                    ).toFixed(
+                                                                        2
+                                                                    )}
+                                                                    %
+                                                                </>
+                                                            )}
+                                                        </p>
+                                                    }
+                                                    locale={locale}
+                                                    item={
+                                                        itemPool.item as unknown as Item
+                                                    }
+                                                    itemsLangs={itemsLangs}
+                                                />
+                                            );
+                                        }
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>

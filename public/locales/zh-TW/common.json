@@ -64,7 +64,7 @@
     "elec": "電擊",
     "space": "空間",
     "ghost": "幽靈",
-    "drops_items": "掉落物（{count} 個物品）"
+    "drops_items": "掉落物"
   },
   "quests": {
     "title": "任務",

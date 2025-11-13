@@ -64,7 +64,7 @@
     "elec": "Elec",
     "space": "Space",
     "ghost": "Ghost",
-    "drops_items": "Drops ({count} items)"
+    "drops_items": "Drops"
   },
   "quests": {
     "title": "Quests",
