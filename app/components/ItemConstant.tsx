@@ -50,7 +50,7 @@ export const ItemSlots: React.FC<ItemSlotsProps> = async ({ slots }) => {
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
                 { t('tags.Tag_Accessory')}
             </h2>
-            <div className="grid grid-cols-6 gap-4">
+            <div className="grid grid-cols-3 md:grid-cols-6  gap-4">
                 {slots.map((slot, idx) => {
                     const hasSlot = false;
                     return (
@@ -130,7 +130,7 @@ export const ItemAttribute: React.FC<ItemAttributeProps> = async ({ attrs }) => 
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
                 { t('inventory.properties')}
             </h2>
-            <div className="grid grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
                 {attrs.map((attr) => {
                     return (
                         <div key={attr.key} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
