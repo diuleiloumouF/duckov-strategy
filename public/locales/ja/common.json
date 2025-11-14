@@ -30,6 +30,7 @@
     "item_not_exist": "このアイテムは存在しません",
     "price": "価格",
     "max_stack": "最大スタック",
+    "weight": "重量",
     "properties": "プロパティ",
     "name": "名前",
     "display_name": "表示名",

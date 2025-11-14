@@ -1,0 +1,1 @@
+{"base":{"typeID":924,"displayName":"Item_GameTable","icon":"missing_.png","maxStackCount":1,"value":0,"quality":999,"weight":0.0,"tags":["MiniGame","Special"],"constants":{"entries":[]}},"slots":{"list":[{"key":"Monitor","slotIcon":{"fileID":0}},{"key":"Console","slotIcon":{"fileID":0}}]},"attributes":null}

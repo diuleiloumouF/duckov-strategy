@@ -34,6 +34,7 @@
     "item_not_exist": "该物品不存在",
     "price": "价格",
     "max_stack": "最大堆叠",
+    "weight": "重量",
     "properties": "属性",
     "name": "名称",
     "display_name": "显示名称",

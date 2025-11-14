@@ -1,0 +1,1 @@
+{"base":{"typeID":718,"displayName":"Item_NightVisionGoggles","icon":"NightVision.webp","maxStackCount":1,"value":4725,"quality":5,"weight":0.88,"tags":["FaceMask","Equipment"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00000000","display":0},{"key":"RepairLossRatio","dataType":1,"data":"cdcc4c3e","display":0}]}},"slots":null,"attributes":null}

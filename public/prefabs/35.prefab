@@ -1,0 +1,1 @@
+{"base":{"typeID":35,"displayName":"Item_ArmorLV5","icon":"Clothes_LV5.webp","maxStackCount":1,"value":5827,"quality":5,"weight":5.88,"tags":["Armor","Equipment","Western","Repairable"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"0000f042","display":0},{"key":"RepairLossRatio","dataType":1,"data":"cdcc4c3e","display":0}]}},"slots":null,"attributes":null}

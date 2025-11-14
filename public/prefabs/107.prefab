@@ -1,0 +1,1 @@
+{"base":{"typeID":107,"displayName":"Item_Waterbottle","icon":"Waterbottle02.webp","maxStackCount":1,"value":869,"quality":4,"weight":0.99,"tags":["Food","Drink"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00004843","display":0}]}},"slots":null,"attributes":null}

@@ -1,0 +1,1 @@
+{"base":{"typeID":379,"displayName":"Item_Armor_Cai","icon":"CaiShirt.webp","maxStackCount":1,"value":350,"quality":9,"weight":0.98,"tags":["Armor","Equipment","Repairable"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00003442","display":0},{"key":"RepairLossRatio","dataType":1,"data":"cdcc4c3e","display":0}]}},"slots":null,"attributes":null}

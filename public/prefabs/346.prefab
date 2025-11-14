@@ -1,0 +1,1 @@
+{"base":{"typeID":346,"displayName":"Item_Fish1","icon":"fish.webp","maxStackCount":1,"value":83,"quality":92,"weight":2.0,"tags":["Fish"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"FishingDifficulty","display":0,"baseValue":1.0}]}}

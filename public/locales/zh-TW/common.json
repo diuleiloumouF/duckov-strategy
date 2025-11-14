@@ -6,6 +6,9 @@
     "quests": "任務",
     "archived": "存檔"
   },
+  "button":  {
+    "back": "返回"
+  },
   "inventory": {
     "title": "物品庫",
     "search": "搜尋",
@@ -31,6 +34,7 @@
     "item_not_exist": "該物品不存在",
     "price": "價格",
     "max_stack": "最大堆疊",
+    "weight": "重量",
     "properties": "屬性",
     "name": "名稱",
     "display_name": "顯示名稱",

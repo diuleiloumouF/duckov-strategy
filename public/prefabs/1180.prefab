@@ -1,0 +1,1 @@
+{"base":{"typeID":1180,"displayName":"Item_CandyCan","icon":"candy.webp","maxStackCount":1,"value":470,"quality":3,"weight":0.44,"tags":["Food"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00002041","display":0}]}},"slots":null,"attributes":null}

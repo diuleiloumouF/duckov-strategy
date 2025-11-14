@@ -1,0 +1,1 @@
+{"base":{"typeID":16,"displayName":"Item_FirstAidKit_M","icon":"First_aid_Kit02.webp","maxStackCount":1,"value":807,"quality":3,"weight":0.75,"tags":["Medic","Healing"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00002f43","display":0}]}},"slots":null,"attributes":null}

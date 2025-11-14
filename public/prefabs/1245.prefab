@@ -1,0 +1,1 @@
+{"base":{"typeID":1245,"displayName":"Item_SurgicalKit","icon":"Pfb_Surgicalkit_01.webp","maxStackCount":1,"value":488,"quality":3,"weight":0.5,"tags":["Medic","Healing","AdvancedDebuffMode"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00004040","display":0}]}},"slots":null,"attributes":null}

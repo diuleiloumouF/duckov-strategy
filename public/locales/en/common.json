@@ -6,6 +6,9 @@
     "quests": "Quests",
     "archived": "Archived"
   },
+  "button":  {
+    "back": "Back"
+  },
   "inventory": {
     "title": "Inventory",
     "search": "Search",
@@ -31,6 +34,7 @@
     "item_not_exist": "The item does not exist",
     "price": "Price",
     "max_stack": "Max Stack",
+    "weight": "Weight",
     "properties": "Properties",
     "name": "Name",
     "display_name": "Display Name",

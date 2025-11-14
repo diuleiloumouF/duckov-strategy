@@ -1,0 +1,1 @@
+{"base":{"typeID":20,"displayName":"Item_Aspirin","icon":"Pill.webp","maxStackCount":3,"value":32,"quality":1,"weight":0.03,"tags":["Medic","Healing"],"constants":{"entries":[{"key":"SFX_Put","dataType":4,"data":"655f4974656d5f50696c6c","display":0}]}},"slots":null,"attributes":null}

@@ -1,0 +1,1 @@
+{"base":{"typeID":868,"displayName":"Item_DemoChallengeTicket","icon":"Ticket_DEMOChallenge.webp","maxStackCount":1,"value":10000,"quality":6,"weight":0.1,"tags":["SpecialKey","Key"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"0000803f","display":0}]}},"slots":null,"attributes":null}

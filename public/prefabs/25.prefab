@@ -1,0 +1,1 @@
+{"base":{"typeID":25,"displayName":"Item_Flashlight","icon":"Flashlight01.webp","maxStackCount":1,"value":560,"quality":3,"weight":0.31,"tags":["Tool"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"FlashLight","display":0,"baseValue":1.0}]}}

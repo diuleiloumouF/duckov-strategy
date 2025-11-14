@@ -1,0 +1,1 @@
+{"base":{"typeID":922,"displayName":"Item_Cartridge_Snake","icon":"ItemGraphic_Cartridge_Snake.webp","maxStackCount":1,"value":4321,"quality":4,"weight":0.15,"tags":["MiniGame","Cartridge","Special"],"constants":{"entries":[{"key":"GameID","dataType":4,"data":"536e616b65","display":0}]}},"slots":null,"attributes":null}

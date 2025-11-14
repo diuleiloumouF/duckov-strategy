@@ -1,0 +1,1 @@
+{"base":{"typeID":139,"displayName":"Item_Bullet_Template","icon":"Bullet01.webp","maxStackCount":60,"value":60,"quality":9,"weight":0.03,"tags":["Bullet"],"constants":{"entries":[{"key":"Caliber","dataType":4,"data":"41525f4c","display":1},{"key":"SFX_Put","dataType":4,"data":"655f4974656d5f42756c6c6574","display":0}]}},"slots":null,"attributes":null}

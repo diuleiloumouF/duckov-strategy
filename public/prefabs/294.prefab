@@ -1,0 +1,1 @@
+{"base":{"typeID":294,"displayName":"Item_BP_RPK","icon":"Blueprint.webp","maxStackCount":1,"value":50,"quality":5,"weight":0.1,"tags":["Formula","Formula_Blueprint"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00000000","display":0}]}},"slots":null,"attributes":null}

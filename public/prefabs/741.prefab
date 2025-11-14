@@ -1,0 +1,1 @@
+{"base":{"typeID":741,"displayName":"Item_Glass","icon":"PFB_Glasses.webp","maxStackCount":1,"value":130,"quality":2,"weight":0.08,"tags":["FaceMask","Equipment","DecorateEquipment"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00000000","display":0},{"key":"RepairLossRatio","dataType":1,"data":"cdcc4c3e","display":0}]}},"slots":null,"attributes":null}

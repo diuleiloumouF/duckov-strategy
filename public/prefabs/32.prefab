@@ -1,0 +1,1 @@
+{"base":{"typeID":32,"displayName":"Item_ArmorLV1","icon":"Clothes_LV1.webp","maxStackCount":1,"value":285,"quality":1,"weight":2.0,"tags":["Armor","Equipment","Repairable"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00003442","display":0},{"key":"RepairLossRatio","dataType":1,"data":"cdcc4c3e","display":0}]}},"slots":null,"attributes":null}

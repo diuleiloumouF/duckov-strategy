@@ -1,0 +1,1 @@
+{"base":{"typeID":923,"displayName":"Item_FutureConsole","icon":"ItemGraphic_FC.webp","maxStackCount":1,"value":10679,"quality":6,"weight":0.7,"tags":["MiniGame","GamingConsole","Special"],"constants":{"entries":[]}},"slots":{"list":[{"key":"Cartridge","slotIcon":{"fileID":0}},{"key":"FcController","slotIcon":{"fileID":0}}]},"attributes":null}

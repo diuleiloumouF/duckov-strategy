@@ -1,0 +1,1 @@
+{"base":{"typeID":1244,"displayName":"Item_SplintAdv","icon":"Pfb_BoneSplint_01.webp","maxStackCount":1,"value":468,"quality":3,"weight":0.8,"tags":["Medic","Healing","AdvancedDebuffMode"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"0000a040","display":0}]}},"slots":null,"attributes":null}

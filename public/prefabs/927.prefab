@@ -1,0 +1,1 @@
+{"base":{"typeID":927,"displayName":"Item_Cartridge_BubblePop","icon":"ItemGraphic_Cartridge_BubblePop.webp","maxStackCount":1,"value":6543,"quality":4,"weight":0.15,"tags":["MiniGame","Cartridge","Special"],"constants":{"entries":[{"key":"GameID","dataType":4,"data":"427562626c65506f70706572","display":0}]}},"slots":null,"attributes":null}

@@ -1,0 +1,1 @@
+{"base":{"typeID":754,"displayName":"Item_Key_Card_JLabLv1","icon":"OneTimeCard_LV1.webp","maxStackCount":1,"value":2000,"quality":3,"weight":0.2,"tags":["SpecialKey","Key","LockInDemo"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"0000803f","display":0}]}},"slots":null,"attributes":null}

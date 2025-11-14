@@ -1,0 +1,1 @@
+{"base":{"typeID":719,"displayName":"Item_ThermalVisionGoggles","icon":"ThermalGoggles_LV3.webp","maxStackCount":1,"value":38900,"quality":6,"weight":0.92,"tags":["FaceMask","Equipment"],"constants":{"entries":[{"key":"MaxDurability","dataType":1,"data":"00000000","display":0},{"key":"RepairLossRatio","dataType":1,"data":"cdcc4c3e","display":0}]}},"slots":null,"attributes":null}
