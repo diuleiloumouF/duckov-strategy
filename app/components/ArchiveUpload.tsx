@@ -5,7 +5,7 @@ import {
     Inventory,
     ItemEntry,
     ItemTreeData,
-    ItemVariable, MasterKey,
+    MasterKey,
     SlotContent,
 } from '@/app/[locale]/archived/types';
 import { ItemLink } from '@/app/components/ClientProxy';
@@ -19,27 +19,7 @@ import { LocaleLink } from '@/app/components/LocaleLink';
 import { IQuestGraph } from '@/app/types/quest';
 import { ItemLinkProps } from '@/app/components/ItemCard';
 import { LinkProps } from 'next/link';
-
-function parseVariable(variable: ItemVariable) {
-    const { dataType, data } = variable;
-
-    const binaryString = atob(data);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-
-    switch (dataType) {
-        case 1: // Float
-            return new Float32Array(bytes.buffer)[0];
-        case 2: // Int32
-            return new Int32Array(bytes.buffer)[0];
-        case 3: // Boolean
-            return bytes[0] === 1;
-        default:
-            return null;
-    }
-}
+import { parseVariable } from '@/app/utils/format';
 
 
 type ArchiveUploadProps = {

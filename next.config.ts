@@ -4,6 +4,25 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig: NextConfig = {
     /* config options here */
     // trailingSlash: true,
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+            config.optimization.splitChunks = {
+                chunks: 'all',
+                cacheGroups: {
+                    default: false,
+                    vendors: false,
+                    // 合并更多代码到主包
+                    commons: {
+                        name: 'commons',
+                        chunks: 'all',
+                        minChunks: 2,
+                    },
+                },
+            };
+        }
+        return config;
+    },
+    compress: true, // 启用 gzip 压缩
     images: {
         unoptimized: true, // 完全禁用 Vercel 优化
         minimumCacheTTL: 2678400,

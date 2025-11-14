@@ -3,11 +3,14 @@ import { Item, KeyValue } from '../types/item';
 import { LocaleLink } from '@/app/components/LocaleLink';
 import { getQualityConfig } from '@/app/constants/quality';
 import { Language } from '@/app/i18n/config';
+import { getTranslations } from 'next-intl/server';
+import { LinkProps } from 'next/link';
+import { PREFETCH } from '@/app/constants';
 
 interface ItemCardProps {
     item: Item;
     langs: KeyValue;
-    tags: KeyValue;
+    // tags: KeyValue;
     qualityTranslations: KeyValue;
     locale: Language;
 }
@@ -16,7 +19,7 @@ export const getName = (langs: KeyValue, item: Item) => {
     return langs?.[item.displayName] || item.name;
 };
 
-export type ItemLinkProps = {
+export type ItemLinkProps =  Omit<LinkProps, 'href'>& {
     locale: Language;
     item: Item;
     itemsLangs: KeyValue;
@@ -25,7 +28,7 @@ export type ItemLinkProps = {
     disabled?: boolean;
     className?: string;
     border?: string;
-}
+};
 
 export function ItemLink({ locale, item, itemsLangs, extra, qualityBorder, disabled, className, border = "border-gray-200 dark:border-gray-600" }: ItemLinkProps){
     const qualityConfig = getQualityConfig(item.quality);
@@ -58,14 +61,15 @@ export function ItemLink({ locale, item, itemsLangs, extra, qualityBorder, disab
     </LocaleLink>
 }
 
-export default async function ItemCard({ item, langs, locale, tags, qualityTranslations }: ItemCardProps)
+export default async function ItemCard({ item, langs, locale, qualityTranslations }: ItemCardProps)
 {
-    const cnTag = item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag);
+    const t = await getTranslations();
+    const cnTag = item.tags.map((tag) => t(`tags.Tag_${tag}`) || tag);
     const qualityConfig = getQualityConfig(item.quality);
     const qualityName = qualityTranslations[qualityConfig.nameKey] || qualityConfig.name;
 
     return (
-        <LocaleLink locale={locale} href={`/inventory/${item.id}`} className="block">
+        <LocaleLink prefetch={PREFETCH} locale={locale} href={`/inventory/${item.id}`} className="block">
             <div className={`border flex-1/6 rounded-lg p-4 hover:shadow-lg transition-shadow h-[300px] flex flex-col ${qualityConfig.borderColor}`}>
                 <div className="flex flex-col items-center gap-3 flex-1">
                     <div className="relative w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-700 rounded">

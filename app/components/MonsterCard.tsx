@@ -5,6 +5,7 @@ import { ItemLink } from '@/app/components/ItemCard';
 import { getTranslations } from 'next-intl/server';
 import { Language } from '@/app/i18n/config';
 import React from 'react';
+import { PREFETCH } from '@/app/constants';
 
 type MonsterCardProps = {
     monster: Monster;
@@ -229,6 +230,8 @@ export default async function MonsterCard({
                                         (itemPool, idx) => {
                                             return (
                                                 <ItemLink
+                                                    // 暂时关闭vercel的预加载
+                                                    prefetch={PREFETCH}
                                                     border={color}
                                                     key={`${ix}-${idx}-${itemPool.item?.id}`}
                                                     extra={

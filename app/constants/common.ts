@@ -23,3 +23,6 @@ export type EnumKeys =
     | typeof ITEM_KEY
     | typeof BUFF_KEY
     | typeof QUEST_KEY;
+
+// 预加载
+export const PREFETCH = false;

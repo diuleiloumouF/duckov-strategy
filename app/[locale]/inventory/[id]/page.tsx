@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Item } from '@/app/types/item';
+import { Item, PrefabItem } from '@/app/types/item';
 import { MonsterData } from '@/app/types/monster';
 import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
 import { ITEM_KEY, TAG_KEY, CHARACTER_KEY } from '@/app/constants';
@@ -10,6 +10,7 @@ import { findMonsterDropSources } from '@/app/utils/monster';
 import { PageParamsProps } from '@/app/types/router';
 import { Language } from '@/app/i18n/config';
 import { GoBack } from '@/app/components/ClientProxy';
+import { ItemAttribute, ItemConstant, ItemSlots } from '@/app/components/ItemConstant';
 
 const fetchTags = generateKeyValueFetch(TAG_KEY);
 const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
@@ -75,11 +76,10 @@ export default async function ItemDetailPage(
     const { id, locale } = await props.params;
     const t = await getTranslations();
 
-    const items = fetchAllByFile<Item[]>('items.json');
+    const itemPrefab = fetchAllByFile<PrefabItem>(`prefabs/${id}.prefab`);
     const langs = fetchItemI18(locale as Language);
-    const tags = fetchTags(locale as Language);
 
-    const item = items.find((item) => item.id === Number(id));
+    const item = itemPrefab?.base;
 
     if (!item) {
         return (
@@ -101,14 +101,22 @@ export default async function ItemDetailPage(
         );
     }
 
-    const cnTag = item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag);
+    // const cnTag = item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag);
     const qualityConfig = getQualityConfig(item.quality);
     const qualityName = t(qualityConfig.nameKey);
 
     // Find monster.ts drop sources
     const lootData = fetchAllByFile<MonsterData>('loot.json');
-    const monsterDrops = findMonsterDropSources(item.id, lootData);
+    const isGunPrefab = !item.tags.includes("DestroyOnLootBox") && item.tags.includes("Gun");
+    const gunItem = isGunPrefab ? fetchAllByFile<PrefabItem>(`prefabs/${id}.prefab`) : undefined;
+
+    const monsterDrops = findMonsterDropSources(item.typeID, lootData);
     const monsterLangs = fetchCharacter(locale as Language);
+
+    const slots = gunItem?.slots?.list || []
+    const attrs = gunItem?.attributes?.list || []
+
+    const descriptionKey = `${item.displayName}_Desc`;
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
@@ -133,12 +141,12 @@ export default async function ItemDetailPage(
                             </div>
                             <div className="flex-1">
                                 <h1 className="text-3xl font-bold text-white mb-2">
-                                    {langs?.[item.displayName] || item.name}
+                                    {langs?.[item.displayName] || item.displayName}
                                 </h1>
                                 <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${qualityConfig.bgColor} ${qualityConfig.textColor}`}>
                                     {qualityName}
                                 </span>
-                                <p className="text-blue-100 mt-2">ID: {item.id}</p>
+                                <p className="text-blue-100 mt-2">ID: {item.typeID}</p>
                             </div>
                         </div>
                     </div>
@@ -151,8 +159,8 @@ export default async function ItemDetailPage(
                                 { t('inventory.description')}
                             </h2>
                             <p className="text-gray-700 dark:text-gray-300">
-                                {langs?.[item.description] ||
-                                    item.description ||
+                                {langs?.[descriptionKey] ||
+                                    descriptionKey ||
                                     t('inventory.no_description')}
                             </p>
                         </div>
@@ -164,7 +172,7 @@ export default async function ItemDetailPage(
                                     { t('inventory.price')}
                                 </p>
                                 <p className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                                    {item.priceEach}
+                                    {item.value}
                                 </p>
                             </div>
                             <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
@@ -175,31 +183,37 @@ export default async function ItemDetailPage(
                                     {item.maxStackCount}
                                 </p>
                             </div>
-                            {/*{item.weight !== undefined && (*/}
-                            {/*  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">*/}
-                            {/*    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">*/}
-                            {/*      Weight*/}
-                            {/*    </p>*/}
-                            {/*    <p className="text-xl font-bold text-gray-900 dark:text-gray-100">*/}
-                            {/*      {item.weight}*/}
-                            {/*    </p>*/}
-                            {/*  </div>*/}
-                            {/*)}*/}
-                        </div>
 
+                            {item?.weight && (
+                                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                        { t('inventory.weight')}
+                                    </p>
+                                    <p className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                                        {item.weight}Kg
+                                    </p>
+                                </div>
+                            )}
+                            {gunItem && (
+                                <ItemConstant {...gunItem}/>
+                            )}
+                        </div>
+                        {isGunPrefab && slots.length >0 && (
+                            <ItemSlots slots={gunItem?.slots?.list?.map(item => item.key) || []}/>
+                        )}
                         {/* Tags */}
-                        {cnTag.length > 0 && (
+                        {item.tags.length > 0 && (
                             <div>
                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
                                     { t('inventory.tags')}
                                 </h2>
                                 <div className="flex flex-wrap gap-2">
-                                    {cnTag.map((tag, idx) => (
+                                    {item.tags.map((tag) => (
                                         <span
-                                            key={idx}
+                                            key={tag}
                                             className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium"
                                         >
-                                            {tag}
+                                            {t(`tags.Tag_${tag}`)}
                                         </span>
                                     ))}
                                 </div>
@@ -249,50 +263,9 @@ export default async function ItemDetailPage(
                             )}
                         </div>
 
-                        {/* Additional Properties */}
-                        <div>
-                            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
-                                { t('inventory.properties')}
-                            </h2>
-                            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-2">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600 dark:text-gray-400">
-                                        { t('inventory.name')}:
-                                    </span>
-                                    <span className="text-gray-900 dark:text-gray-100 font-medium">
-                                        {item.name}
-                                    </span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600 dark:text-gray-400">
-                                        { t('inventory.display_name')}:
-                                    </span>
-                                    <span className="text-gray-900 dark:text-gray-100 font-medium">
-                                        {item.displayName}
-                                    </span>
-                                </div>
-                                {item.description && (
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600 dark:text-gray-400">
-                                            { t('inventory.description_key')}:
-                                        </span>
-                                        <span className="text-gray-900 dark:text-gray-100 font-medium">
-                                            {item.description}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Raw Data */}
-                        <details className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <summary className="text-lg font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
-                                { t('inventory.raw_data')} (JSON)
-                            </summary>
-                            <pre className="mt-4 text-xs text-gray-700 dark:text-gray-300 overflow-x-auto">
-                                {JSON.stringify(item, null, 2)}
-                            </pre>
-                        </details>
+                        {attrs.length>=0 &&(
+                            <ItemAttribute attrs={attrs} />
+                        )}
                     </div>
                 </div>
             </main>

@@ -3,16 +3,15 @@ import Pagination from '@/app/components/Pagination';
 import SearchFilter from '@/app/components/SearchFilter';
 import { Item } from '@/app/types/item';
 import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
-import { ITEM_KEY, TAG_KEY } from '@/app/constants';
+import { ITEM_KEY } from '@/app/constants';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Language } from '@/app/i18n/config';
 import { PageParams } from '@/app/types/router';
 
-const ITEMS_PER_PAGE = 20; // 分页
+const ITEMS_PER_PAGE = 10; // 分页
 
-const fetchTags = generateKeyValueFetch(TAG_KEY);
 const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
 
 interface HomeProps {
@@ -77,7 +76,7 @@ export default async function Home({ searchParams, params }: HomeProps) {
     // Fetch all data
     const allData = fetchAllByFile<Item[]>('items.json');
     const langs = fetchItemI18(locale);
-    const tags = fetchTags(locale);
+    // const tags = fetchTags(locale);
 
     // Prepare quality translations
     const qualityTranslations = {
@@ -95,7 +94,7 @@ export default async function Home({ searchParams, params }: HomeProps) {
     const allUniqueTags = Array.from(
         new Set(
             allData.flatMap((item) =>
-                item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag)
+                item.tags.map((tag) => t(`tags.Tag_${tag}`) || tag)
             )
         )
     ).sort();
@@ -124,7 +123,7 @@ export default async function Home({ searchParams, params }: HomeProps) {
     if (selectedTags.length > 0) {
         filteredData = filteredData.filter((item) => {
             const itemTags = item.tags.map(
-                (tag) => tags?.[`Tag_${tag}`] || tag
+                (tag) => t(`tags.Tag_${tag}`) || tag
             );
             return selectedTags.every((selectedTag) =>
                 itemTags.includes(selectedTag)
@@ -176,7 +175,6 @@ export default async function Home({ searchParams, params }: HomeProps) {
                             {paginatedData.map((item: Item) => (
                                 <ItemCard
                                     locale={locale}
-                                    tags={tags}
                                     langs={langs}
                                     item={item}
                                     qualityTranslations={qualityTranslations}
