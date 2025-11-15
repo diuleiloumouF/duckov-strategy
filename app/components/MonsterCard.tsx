@@ -270,7 +270,6 @@ export default async function MonsterCard({
                                                     item={
                                                         itemPool.item as unknown as Item
                                                     }
-                                                    // itemsLangs={itemsLangs}
                                                 />
                                             );
                                         }

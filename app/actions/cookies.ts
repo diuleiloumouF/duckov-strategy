@@ -44,7 +44,7 @@ export async function setCookie(name: string, value: string, options?: {
         httpOnly: options?.httpOnly ?? false, // 默认允许客户端访问
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: options?.maxAge ?? 60 * 60 * 24 * 7,
+        maxAge: options?.maxAge ?? 60 * 60 * 24 * 365,
         path: '/',
         ...options,
     })

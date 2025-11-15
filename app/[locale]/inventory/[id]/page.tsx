@@ -128,7 +128,7 @@ export default async function ItemDetailPage(
                             </div>
                             <div className="flex-1">
                                 <h1 className="text-3xl font-bold text-white mb-2">
-                                    {getItemName(t, item)}
+                                    {getItemKey(t, item, 'displayName')}
                                 </h1>
                                 <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${qualityConfig.bgColor} ${qualityConfig.textColor}`}>
                                     {qualityName}
