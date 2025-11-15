@@ -21,8 +21,8 @@ export default function LanguageSwitcher({ locale } : LanguageSwitcherProps) {
 
     // 初始化设置一次
     const handleLanguages = useCallback(async (locale: Language) => {
-        setCurrentLang(locale);
         Cookies.set(LANG_KEY, locale, { expires: 365 })
+        setCurrentLang(locale);
     }, []);
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function LanguageSwitcher({ locale } : LanguageSwitcherProps) {
     }, [isOpen]);
 
     const handleLanguageChange = async (lang: Language) => {
-        void handleLanguages(lang);
+        void await handleLanguages(lang);
         setIsOpen(false);
         router.replace(pathWithoutLocale, {locale: lang as Language});
     };
