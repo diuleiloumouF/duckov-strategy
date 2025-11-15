@@ -1,26 +1,21 @@
 import Image from 'next/image';
 import { Item, PrefabItem } from '@/app/types/item';
 import { MonsterData } from '@/app/types/monster';
-import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
-import { ITEM_KEY, TAG_KEY, CHARACTER_KEY } from '@/app/constants';
+import { fetchAllByFile } from '@/app/utils/request';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { getQualityConfig } from '@/app/constants/quality';
 import { findMonsterDropSources } from '@/app/utils/monster';
 import { PageParamsProps } from '@/app/types/router';
-import { Language } from '@/app/i18n/config';
 import { GoBack } from '@/app/components/ClientProxy';
 import { ItemAttribute, ItemConstant, ItemSlots } from '@/app/components/ItemConstant';
-
-const fetchTags = generateKeyValueFetch(TAG_KEY);
-const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
-const fetchCharacter = generateKeyValueFetch(CHARACTER_KEY);
+import { getItemKey, getItemName, getMonsterName } from '@/app/utils/lang';
 
 export async function generateMetadata(
     props: PageProps<'/[locale]/inventory/[id]'> & PageParamsProps
 ): Promise<Metadata> {
-    const t = await getTranslations();
     const { id, locale } = await props.params;
+    const t = await getTranslations({locale });
     const items = fetchAllByFile<Item[]>('items.json');
     const item = items.find((item) => item.id === Number(id));
 
@@ -31,16 +26,9 @@ export async function generateMetadata(
         };
     }
 
-    // const lang = await getLocale();
-    const langs = fetchItemI18(locale as Language);
-    const tags = fetchTags(locale as Language);
-    const itemName = langs?.[item.displayName] || item.name;
-    const itemDescription =
-        langs?.[item.description] ||
-        item.description ||
-        t('inventory.no_description');
-    const itemTags = item.tags.map((tag) => tags?.[`Tag_${tag}`] || tag);
-
+    const itemName = getItemName(t, item);
+    const itemDescription = getItemKey(t, item, 'description');
+    const itemTags = item.tags.map((tag) => t(`tags.Tag_${tag}`) || tag);
     const description = t('seo.item_detail_description', {
         name: itemName,
         description: itemDescription,
@@ -74,10 +62,9 @@ export default async function ItemDetailPage(
     props: PageProps<'/[locale]/inventory/[id]'> & PageParamsProps
 ) {
     const { id, locale } = await props.params;
-    const t = await getTranslations();
+    const t = await getTranslations({locale});
 
     const itemPrefab = fetchAllByFile<PrefabItem>(`prefabs/${id}.prefab`);
-    const langs = fetchItemI18(locale as Language);
 
     const item = itemPrefab?.base;
 
@@ -111,7 +98,7 @@ export default async function ItemDetailPage(
     const gunItem = isGunPrefab ? fetchAllByFile<PrefabItem>(`prefabs/${id}.prefab`) : undefined;
 
     const monsterDrops = findMonsterDropSources(item.typeID, lootData);
-    const monsterLangs = fetchCharacter(locale as Language);
+    // const monsterLangs = fetchCharacter(locale as Language);
 
     const slots = gunItem?.slots?.list || []
     const attrs = gunItem?.attributes?.list || []
@@ -141,7 +128,7 @@ export default async function ItemDetailPage(
                             </div>
                             <div className="flex-1">
                                 <h1 className="text-3xl font-bold text-white mb-2">
-                                    {langs?.[item.displayName] || item.displayName}
+                                    {getItemName(t, item)}
                                 </h1>
                                 <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${qualityConfig.bgColor} ${qualityConfig.textColor}`}>
                                     {qualityName}
@@ -159,9 +146,8 @@ export default async function ItemDetailPage(
                                 { t('inventory.description')}
                             </h2>
                             <p className="text-gray-700 dark:text-gray-300">
-                                {langs?.[descriptionKey] ||
-                                    descriptionKey ||
-                                    t('inventory.no_description')}
+
+                                {getItemKey(t, item as unknown as Item, descriptionKey as keyof Item)}
                             </p>
                         </div>
 
@@ -195,11 +181,11 @@ export default async function ItemDetailPage(
                                 </div>
                             )}
                             {gunItem && (
-                                <ItemConstant {...gunItem}/>
+                                <ItemConstant {...gunItem} locale={locale} />
                             )}
                         </div>
                         {isGunPrefab && slots.length >0 && (
-                            <ItemSlots slots={gunItem?.slots?.list?.map(item => item.key) || []}/>
+                            <ItemSlots locale={locale} slots={gunItem?.slots?.list?.map(item => item.key) || []}/>
                         )}
                         {/* Tags */}
                         {item.tags.length > 0 && (
@@ -228,7 +214,7 @@ export default async function ItemDetailPage(
                             {monsterDrops.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {monsterDrops.map((drop, idx) => {
-                                        const monsterName = monsterLangs?.[drop.monster.nameKey] || drop.monster.nameKey || drop.monster.m_Name;
+                                        const monsterName = getMonsterName(t, drop);
                                         return (
                                             <div
                                                 key={idx}
@@ -264,7 +250,7 @@ export default async function ItemDetailPage(
                         </div>
 
                         {attrs.length>=0 &&(
-                            <ItemAttribute attrs={attrs} />
+                            <ItemAttribute locale={locale} attrs={attrs} />
                         )}
                     </div>
                 </div>

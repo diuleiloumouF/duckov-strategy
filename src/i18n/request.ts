@@ -1,23 +1,31 @@
 import { getRequestConfig } from 'next-intl/server';
-import { getLocale } from '@/app/actions/cookies';
-import { BUFF_KEY, TAG_KEY } from '@/app/constants';
+import { BUFF_KEY, CHARACTER_KEY, ITEM_KEY, TAG_KEY } from '@/app/constants';
 import { generateKeyValueFetch } from '@/app/utils/request';
+import { Language } from '@/app/i18n/config';
 
 const fetchBuffsLangs = generateKeyValueFetch(BUFF_KEY);
 const fetchTagsLangs = generateKeyValueFetch(TAG_KEY);
+const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
+const fetchCharacterI18 = generateKeyValueFetch(CHARACTER_KEY);
 
-export default getRequestConfig(async () => {
-    const locale = await getLocale() || 'en';
-    const locales = fetchBuffsLangs(locale);
-    const tagLocales = fetchTagsLangs(locale);
+export default getRequestConfig(async ({ locale  }) => {
+
+    const lang = (locale||'en') as Language;
+
+    const locales = fetchBuffsLangs(lang);
+    const tagLocales = fetchTagsLangs(lang);
+    const itemLocales = fetchItemI18(lang);
+    const monstersLocales = fetchCharacterI18(lang);
 
     return {
-        locale: locale as string,
+        locale: lang as string,
         messages: {
             buffs: locales,
             tags: tagLocales,
-            ...(await import(`../../public/locales/${locale}/common.json`)).default,
-            ...(await import(`../../public/locales/${locale}/entry.json`)).default,
+            items: itemLocales,
+            characters: monstersLocales,
+            ...(await import(`../locales/${lang}/common.json`)).default,
+            ...(await import(`../locales/${lang}/entry.json`)).default,
         }
     };
 });

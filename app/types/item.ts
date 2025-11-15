@@ -52,7 +52,7 @@ interface Constant {
     // display?: number;
 }
 
-interface BaseItemMonoBehaviour {
+export interface BaseItemMonoBehaviour {
     typeID: number;
     // order?: number;
     // displayName?: string;

@@ -3,9 +3,11 @@ import { LocaleLink } from '@/app/components/LocaleLink';
 import { getTranslations } from 'next-intl/server';
 import { LocaleRouter } from '@/app/types/global';
 import { Language } from '@/app/i18n/config';
+import { PageParamsProps } from '@/app/types/router';
 
-export async function generateMetadata(): Promise<Metadata> {
-    const t = await getTranslations();
+export async function generateMetadata({ params }: PageParamsProps): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale });
 
     return {
         title: t('notfound.title'),
@@ -14,9 +16,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function NotFound({ params }:LocaleRouter) {
-    const t = await getTranslations();
     const p = await params;
     const locale = p?.locale as Language;
+    const t = await getTranslations({locale});
+
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">

@@ -1,18 +1,16 @@
 import MonsterCard from '@/app/components/MonsterCard';
 import { MonsterData } from '@/app/types/monster';
 import { Item } from '@/app/types/item';
-import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
-import { CHARACTER_KEY, ITEM_KEY } from '@/app/constants';
+import { fetchAllByFile } from '@/app/utils/request';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { generateStaticParams } from '@/lib/getStatic';
 import { Language } from '@/app/i18n/config';
+import { PageParamsProps } from '@/app/types/router';
 
-const fetchCharacter = generateKeyValueFetch(CHARACTER_KEY);
-const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
-
-export async function generateMetadata(): Promise<Metadata> {
-    const t = await getTranslations();
+export async function generateMetadata({ params }: PageParamsProps): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({locale});
     const lootData = fetchAllByFile<MonsterData>('loot.json');
     const monstersCount = Object.keys(lootData).length;
 
@@ -20,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const description = t('seo.monsters_description', {
         count: monstersCount.toString(),
     });
-    const keywords = (t('seo.monsters_keywords')).split(',');
+    const keywords = t('seo.monsters_keywords').split(',');
 
     return {
         title,
@@ -40,16 +38,12 @@ export default async function MonstersPage({
     params: Promise<{ locale: Language }>;
 }) {
     const { locale: lang } = await params;
-    const t = await getTranslations();
+    const t = await getTranslations({ locale: lang });
     // Load loot.json
     const lootData = fetchAllByFile<MonsterData>('loot.json');
 
     // Load items.json
     const items = fetchAllByFile<Item[]>('items.json');
-
-    // Load language
-    const langs = fetchCharacter(lang);
-    const itemI18 = fetchItemI18(lang);
 
     // Convert monster.ts data object to array
     const monsters = Object.entries(lootData).map(([key, monster]) => ({
@@ -76,8 +70,6 @@ export default async function MonstersPage({
                             key={monster.key}
                             monster={monster}
                             items={items}
-                            monsterLangs={langs}
-                            itemsLangs={itemI18}
                         />
                     ))}
                 </div>
@@ -87,4 +79,5 @@ export default async function MonstersPage({
 }
 
 export { generateStaticParams };
-export const dynamicParams = false;
+
+// export const dynamicParams = false;

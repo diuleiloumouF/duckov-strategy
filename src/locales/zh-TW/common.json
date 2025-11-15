@@ -151,6 +151,26 @@
     "special": "特殊",
     "system": "系統"
   },
+  "slot": {
+    "PrimaryWeapon": "槍械",
+    "SecondaryWeapon": "槍械",
+    "MeleeWeapon": "近戰武器",
+    "Helmat": "頭部",
+    "Armor": "身體",
+    "FaceMask": "面部",
+    "Backpack": "背包",
+    "Totem1": "圖騰",
+    "Totem2": "圖騰",
+    "Headset": "耳機",
+    "accessories": {
+      "Scope": "瞄具",
+      "Muzzle": "槍口",
+      "Grip": "握把",
+      "Stock": "槍托",
+      "Tec": "戰術",
+      "Mag": "彈匣"
+    }
+  },
   "archived": {
     "title": "存檔解析器",
     "subtitle": "上傳 .sav 存檔檔案以查看詳細資訊",

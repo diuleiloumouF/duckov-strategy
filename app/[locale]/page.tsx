@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { PageParamsProps } from '@/app/types/router';
 
-export async function generateMetadata(): Promise<Metadata> {
-    const t = await getTranslations();
+export async function generateMetadata({ params }: PageParamsProps): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({locale});
 
     return {
         title: t('seo.home_title'),
@@ -16,8 +18,9 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-export default async function Home() {
-    const t= await getTranslations();
+export default async function Home({ params}: PageParamsProps) {
+    const { locale } = await params;
+    const t= await getTranslations({locale});
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">

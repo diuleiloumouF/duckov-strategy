@@ -10,24 +10,24 @@ import {
 } from '@/app/[locale]/archived/types';
 import { ItemLink } from '@/app/components/ClientProxy';
 import React, { useRef, useState } from 'react';
-import { Item, KeyValue } from '@/app/types/item';
+import { Item } from '@/app/types/item';
 import { MonsterData } from '@/app/types/monster';
 import { useTranslations } from 'next-intl';
-import { getMonsterName, getQualityConfig } from '@/app/constants';
+import { getMonsterName as getMonsterData, getQualityConfig } from '@/app/constants';
 import Image from 'next/image';
 import { LocaleLink } from '@/app/components/LocaleLink';
 import { IQuestGraph } from '@/app/types/quest';
 import { ItemLinkProps } from '@/app/components/ItemCard';
 import { LinkProps } from 'next/link';
 import { parseVariable } from '@/app/utils/format';
+import { getItemKey, getItemName, getMonsterName } from '@/app/utils/lang';
 
 
 type ArchiveUploadProps = {
     items: Item[];
     monsters: MonsterData;
-    monstersLangs: KeyValue;
     questData: IQuestGraph;
-} & Pick<ItemLinkProps, 'itemsLangs' | 'locale'>;
+} & Pick<ItemLinkProps, 'locale'>;
 
 type InventorysProps = {
     inventory: Inventory;
@@ -35,7 +35,7 @@ type InventorysProps = {
     icon?: React.ReactNode;
     items: Item[];
     isCharacter?: boolean;
-} & Pick<ItemLinkProps, 'itemsLangs' | 'locale'>;
+} & Pick<ItemLinkProps, 'locale'>;
 
 enum SORT_ORDER {
     DEFAULT = 'default',
@@ -77,25 +77,23 @@ type ItemInfoModalProps = {
     instanceItems: ItemEntry[];
     items: Item[];
     item: Item;
-} & Pick<InventorysProps, 'locale' | 'itemsLangs'>;
+} & Pick<InventorysProps, 'locale'>;
 
 const ItemInfoModal: React.FC<ItemInfoModalProps> = ({
     locale,
     item,
     items,
     slots,
-    itemsLangs,
     instanceItems,
-
 }) => {
     const t = useTranslations();
     return (
         <div className="absolute  shadow  bg-black/80 rounded-lg  left-full top-0 mt-2 w-160 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
             <div className="text-center text-white p-4 font-bold text-lg">
-                {itemsLangs?.[item.displayName] || item?.displayName}
+                {getItemName(t, item)}
             </div>
             <div className="text-center text-white p-4 font-bold text-sm">
-                {itemsLangs?.[item.description] || item?.description}
+                {getItemKey(t, item, 'description')}
             </div>
             <div className="p-4  grid grid-cols-6 gap-2">
                 {slots.length > 0 &&
@@ -145,9 +143,7 @@ const ItemInfoModal: React.FC<ItemInfoModalProps> = ({
                                             className={`text-[10px]  text-center right-0 dark:bg-black/50 p-1 ${qualityConfig.textColor} absolute bottom-0`}
                                         >
                                             {slotItem?.displayName
-                                                ? itemsLangs?.[
-                                                      slotItem?.displayName
-                                                  ] || slotItem?.displayName
+                                                ? getItemName(t, slotItem)
                                                 : slotItem?.displayName}
                                         </div>
                                     </div>
@@ -168,10 +164,9 @@ const ItemInfoModal: React.FC<ItemInfoModalProps> = ({
 const CharacterPanel: React.FC<CharacterPanelProps> = ({
     itemData,
     items,
-    itemsLangs,
     locale,
 }) => {
-    const t = useTranslations('archived');
+    const t = useTranslations();
     const tSlot = useTranslations();
     const rootInstanceID = itemData.rootInstanceID; // root 物品
     const entries = itemData?.entries || [];
@@ -251,10 +246,7 @@ const CharacterPanel: React.FC<CharacterPanelProps> = ({
                                         <div
                                             className={`font-normal text-center right-0 dark:bg-black/50 p-1 ${qualityConfig.textColor} absolute bottom-0`}
                                         >
-                                            {item?.displayName
-                                                ? itemsLangs?.[item?.displayName] ||
-                                                item?.displayName
-                                                : item?.displayName}
+                                            {getItemName(t, item)}
                                         </div>
                                     )}
                                 </div>
@@ -269,7 +261,6 @@ const CharacterPanel: React.FC<CharacterPanelProps> = ({
                                     item={item}
                                     items={items}
                                     instanceItems={entries}
-                                    itemsLangs={itemsLangs}
                                     locale={locale}
                                     slots={entry?.slotContents || []}
                                 />
@@ -282,7 +273,6 @@ const CharacterPanel: React.FC<CharacterPanelProps> = ({
                 title={t('inventory.title')}
                 isCharacter
                 locale={locale}
-                itemsLangs={itemsLangs}
                 inventory={
                     {
                         capacity: itemData.entries.length,
@@ -300,7 +290,6 @@ const Inventorys: React.FC<InventorysProps> = ({
     title,
     icon,
     items,
-    itemsLangs,
     locale,
     isCharacter,
 }) => {
@@ -413,7 +402,7 @@ const Inventorys: React.FC<InventorysProps> = ({
                             return (
                                 <ItemLink
                                     qualityBorder
-                                    itemsLangs={itemsLangs}
+                                    t={t}
                                     key={idx}
                                     item={item}
                                     locale={locale}
@@ -437,12 +426,11 @@ const Inventorys: React.FC<InventorysProps> = ({
 export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
     items,
     locale,
-    monstersLangs,
     monsters,
-    itemsLangs,
     questData,
 }) => {
-    const t = useTranslations('archived');
+    const t = useTranslations();
+
     const [archive, setArchive] = useState<Archive | null>(() => {
         const storageArchived = typeof window==='undefined'? null : localStorage.getItem('archived') || null;
         return storageArchived ? JSON.parse(storageArchived) || null : null;
@@ -456,7 +444,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
     const nodes = questData?.nodes || [];
     async function processTextFile(file: File) {
         if (!file.name.endsWith('.sav')) {
-            setError(t('upload.error_format'));
+            setError(t('archived.upload.error_format'));
             return;
         }
 
@@ -478,7 +466,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
             setArchive(parsedArchive);
         } catch (error) {
             setError(
-                error instanceof Error ? error.message : t('upload.error_parse')
+                error instanceof Error ? error.message : t('archived.upload.error_parse')
             );
         } finally {
             setLoading(false);
@@ -527,10 +515,10 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
         <>
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-900">
-                    {t('title')}
+                    {t('archived.title')}
                 </h1>
-                <p className="mt-2 text-gray-600">{t('subtitle')}</p>
-                <p className="mt-2 text-gray-400">{t('game_version')}</p>
+                <p className="mt-2 text-gray-600">{t('archived.subtitle')}</p>
+                <p className="mt-2 text-gray-400">{t('archived.game_version')}</p>
             </div>
 
             {/* 文件上传区域 */}
@@ -572,13 +560,13 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                             onClick={() => fileInputRef.current?.click()}
                             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                         >
-                            {t('upload.button')}
+                            {t('archived.upload.button')}
                         </button>
                         <p className="mt-2 text-sm text-gray-500">
-                            {t('upload.drag_drop')}
+                            {t('archived.upload.drag_drop')}
                         </p>
                         <p className="mt-1 text-xs text-gray-400">
-                            {t('upload.format')}
+                            {t('archived.upload.format')}
                         </p>
                     </div>
                 </div>
@@ -589,7 +577,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                 <div className="mt-8 bg-white rounded-lg shadow p-6 text-center">
                     <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                     <p className="mt-2 text-gray-600">
-                        {t('upload.loading')}
+                        {t('archived.upload.loading')}
                     </p>
                 </div>
             )}
@@ -625,13 +613,13 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                     <div className="bg-white rounded-lg shadow overflow-hidden">
                         <div className="bg-gray-800 px-6 py-4">
                             <h2 className="text-xl font-semibold text-white">
-                                {t('basic_info.title')}
+                                {t('archived.basic_info.title')}
                             </h2>
                         </div>
                         <div className="px-6 py-4 grid grid-cols-2 gap-4">
                             <div>
                                 <p className="text-sm text-gray-500">
-                                    {t('basic_info.version')}
+                                    {t('archived.basic_info.version')}
                                 </p>
                                 <p className="mt-1 text-lg font-medium text-gray-900">
                                     {archive.version}
@@ -639,7 +627,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">
-                                    {t('basic_info.level')}
+                                    {t('archived.basic_info.level')}
                                 </p>
                                 <p className="mt-1 text-lg font-medium text-gray-900">
                                     {archive.level}
@@ -647,7 +635,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">
-                                    {t('basic_info.exp')}
+                                    {t('archived.basic_info.exp')}
                                 </p>
                                 <p className="mt-1 text-lg font-medium text-gray-900">
                                     {archive.exp}
@@ -655,7 +643,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">
-                                    {t('basic_info.money')}
+                                    {t('archived.basic_info.money')}
                                 </p>
                                 <p className="mt-1 text-lg font-medium text-gray-900">
                                     {archive.economyData?.money}
@@ -663,14 +651,14 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">
-                                    {t('basic_info.days')}
+                                    {t('archived.basic_info.days')}
                                 </p>
                                 <p className="mt-1 text-lg font-medium text-gray-900">
                                     {archive.gameClock.days}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-sm text-gray-500">{t('basic_info.hp')}</p>
+                                <p className="text-sm text-gray-500">{t('archived.basic_info.hp')}</p>
                                 <p className="mt-1 text-lg font-medium text-gray-900">
                                     {archive.health || '-'}
                                 </p>
@@ -684,7 +672,6 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                         <CharacterPanel
                             items={items}
                             locale={locale}
-                            itemsLangs={itemsLangs}
                             itemData={archive.characterItemData}
                         />
                     )}
@@ -695,8 +682,8 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                             <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
                                 <div className="bg-gray-800 px-6 py-4">
                                     <h2 className="text-xl font-semibold text-white">
-                                        {t('master_keys.activated')}
-                                        {t('master_keys.title')} (
+                                        {t('archived.master_keys.activated')}
+                                        {t('archived.master_keys.title')} (
                                         {archive.masterKeys.length}/{allKeys.length})
                                     </h2>
                                 </div>
@@ -722,9 +709,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                                                             <ItemLink
                                                                 className="flex-col h-17 pt-4"
                                                                 qualityBorder
-                                                                itemsLangs={
-                                                                    itemsLangs
-                                                                }
+                                                                t={t}
                                                                 disabled={!key.active}
                                                                 key={key.id}
                                                                 item={
@@ -749,13 +734,13 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                         <div className="bg-white rounded-lg shadow overflow-hidden">
                             <div className="bg-gray-800 px-6 py-4">
                                 <h2 className="text-xl font-semibold text-white">
-                                    {t('quests.title')}
+                                    {t('archived.quests.title')}
                                 </h2>
                             </div>
                             <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <p className="text-sm text-gray-500">
-                                        {t('quests.active')}
+                                        {t('archived.quests.active')}
                                     </p>
                                     <p className="mt-1 text-2xl font-semibold text-blue-600">
                                         {archive.quests.activeQuestsData
@@ -764,7 +749,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500">
-                                        {t('quests.completed')}
+                                        {t('archived.quests.completed')}
                                     </p>
                                     <p className="mt-1 text-2xl font-semibold text-green-600">
                                         {archive.quests.historyQuestsData
@@ -803,7 +788,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                         <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-200 dark:border-gray-700">
                             <div className="bg-gray-800 px-6 py-4 dark:pb-0">
                                 <h2 className="text-xl font-semibold  text-white">
-                                    {t('kills.title')} ({archive.kills.length})
+                                    {t('archived.kills.title')} ({archive.kills.length})
                                 </h2>
                             </div>
                             <div className="px-6 py-4">
@@ -816,18 +801,14 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                                             .map((kill, index) => {
                                                 // Try to find monster.ts info
                                                 const monsterInfo =
-                                                    getMonsterName(
+                                                    getMonsterData(
                                                         monsters,
                                                         kill.masterName
                                                     );
                                                 if (!monsterInfo) {
                                                     return <></>;
                                                 }
-                                                const i18Name =
-                                                    monstersLangs?.[
-                                                        monsterInfo?.nameKey
-                                                        ] ||
-                                                    monsterInfo?.nameKey;
+                                                const i18Name = getMonsterName(t, monsterInfo);
                                                 return (
                                                     <div
                                                         key={index}
@@ -844,7 +825,7 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                                                                 {i18Name}
                                                             </p>
                                                             <p className="text-xs text-red-600 dark:text-red-400">
-                                                                {t('kills.count')}:{' '}
+                                                                {t('archived.kills.count')}:{' '}
                                                                 {kill.count}
                                                             </p>
                                                         </div>
@@ -860,10 +841,9 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                     {/* 狗背包 */}
                     {archive.inventorySafe && (
                         <Inventorys
-                            title={t('dog_inventory.title')}
+                            title={t('archived.dog_inventory.title')}
                             icon={<DogSvg />}
                             locale={locale}
-                            itemsLangs={itemsLangs}
                             inventory={archive.inventorySafe}
                             items={items}
                         />
@@ -872,9 +852,8 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                     {/* 仓库信息 */}
                     {archive.characterItemData && (
                         <Inventorys
-                            title={t('storage.title')}
+                            title={t('archived.storage.title')}
                             locale={locale}
-                            itemsLangs={itemsLangs}
                             inventory={archive.playerStorage}
                             items={items}
                         />
@@ -885,12 +864,12 @@ export const ArchiveUpload: React.FC<ArchiveUploadProps> = ({
                         <div className="bg-white rounded-lg shadow overflow-hidden">
                             <div className="bg-gray-800 px-6 py-4">
                                 <h2 className="text-xl font-semibold text-white">
-                                    {t('death_list.title')}
+                                    {t('archived.death_list.title')}
                                 </h2>
                             </div>
                             <div className="px-6 py-4">
                                 <p className="text-sm text-gray-600">
-                                    {t('death_list.count')}:{' '}
+                                    {t('archived.death_list.count')}:{' '}
                                     <span className="font-semibold text-red-600">
                                             {archive.deathList.length}
                                         </span>

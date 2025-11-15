@@ -1,28 +1,21 @@
 import Image from 'next/image';
-import { Item, KeyValue } from '../types/item';
-import { LocaleLink } from '@/app/components/LocaleLink';
+import { Item } from '../types/item';
 import { getQualityConfig } from '@/app/constants/quality';
 import { Language } from '@/app/i18n/config';
 import { getTranslations } from 'next-intl/server';
-import { LinkProps } from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import { PREFETCH } from '@/app/constants';
+import { getItemKey, getItemName, TrFn } from '@/app/utils/lang';
 
 interface ItemCardProps {
     item: Item;
-    langs: KeyValue;
-    // tags: KeyValue;
-    qualityTranslations: KeyValue;
     locale: Language;
 }
-
-export const getName = (langs: KeyValue, item: Item) => {
-    return langs?.[item.displayName] || item.name;
-};
 
 export type ItemLinkProps =  Omit<LinkProps, 'href'>& {
     locale: Language;
     item: Item;
-    itemsLangs: KeyValue;
+    t: TrFn;
     extra?: React.ReactNode;
     qualityBorder?: boolean;
     disabled?: boolean;
@@ -30,11 +23,11 @@ export type ItemLinkProps =  Omit<LinkProps, 'href'>& {
     border?: string;
 };
 
-export function ItemLink({ locale, item, itemsLangs, extra, qualityBorder, disabled, className, border = "border-gray-200 dark:border-gray-600" }: ItemLinkProps){
+export function ItemLink({ locale, item, extra, t, qualityBorder, disabled, className, border = "border-gray-200 dark:border-gray-600" }: ItemLinkProps){
     const qualityConfig = getQualityConfig(item.quality);
     const borderColor =  qualityBorder ? qualityConfig.borderColor: '';
     const color = disabled ? 'grayscale' : borderColor;
-    return <LocaleLink
+    return <Link
         locale={locale}
         href={`/inventory/${item!.id}`}
         className={`${color} flex items-center  justify-center gap-2  p-2 bg-gray-50 dark:bg-gray-700 rounded border ${border} h-14 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors ${className}`}
@@ -51,25 +44,24 @@ export function ItemLink({ locale, item, itemsLangs, extra, qualityBorder, disab
         </div>
         <div className="flex-1 min-w-0">
             <p className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">
-                {getName(
-                    itemsLangs,
-                    item as Item
+                {getItemName(
+                    t,
+                    item as Item,
                 )}
             </p>
             {extra}
         </div>
-    </LocaleLink>
+    </Link>
 }
 
-export default async function ItemCard({ item, langs, locale, qualityTranslations }: ItemCardProps)
+export default async function ItemCard({ item, locale }: ItemCardProps)
 {
-    const t = await getTranslations();
-    const cnTag = item.tags.map((tag) => t(`tags.Tag_${tag}`) || tag);
+    const t = await getTranslations({ locale });
     const qualityConfig = getQualityConfig(item.quality);
-    const qualityName = qualityTranslations[qualityConfig.nameKey] || qualityConfig.name;
+    const qualityName = t.has(qualityConfig.nameKey) ? t(qualityConfig.nameKey) : qualityConfig.name;
 
     return (
-        <LocaleLink prefetch={PREFETCH} locale={locale} href={`/inventory/${item.id}`} className="block">
+        <Link prefetch={PREFETCH} locale={locale} href={`/inventory/${item.id}`} className="block">
             <div className={`border flex-1/6 rounded-lg p-4 hover:shadow-lg transition-shadow h-[300px] flex flex-col ${qualityConfig.borderColor}`}>
                 <div className="flex flex-col items-center gap-3 flex-1">
                     <div className="relative w-16 h-16 flex-shrink-0 bg-gray-100 dark:bg-gray-700 rounded">
@@ -88,7 +80,7 @@ export default async function ItemCard({ item, langs, locale, qualityTranslation
                     </div>
                     <div className="text-center w-full flex-shrink-0">
                         <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 truncate">
-                            {getName(langs, item)}
+                            {getItemName(t, item)}
                         </h3>
                         <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${qualityConfig.bgColor} ${qualityConfig.textColor} mt-1`}>
                             {qualityName}: {item.quality}
@@ -97,7 +89,7 @@ export default async function ItemCard({ item, langs, locale, qualityTranslation
                             ID: {item.id}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 h-8">
-                            {langs?.[item.description] || item.description}
+                            {getItemKey(t, item, 'description')}
                         </p>
                     </div>
                     <div className="flex justify-between w-full text-xs text-gray-600 dark:text-gray-300 border-t border-gray-100 dark:border-gray-700 pt-2 flex-shrink-0">
@@ -106,19 +98,19 @@ export default async function ItemCard({ item, langs, locale, qualityTranslation
                     </div>
                     <div className="w-full flex-1 overflow-y-auto min-h-0">
                         <div className="flex flex-wrap gap-1">
-                            {cnTag.map((tag, idx) => (
+                            {item?.tags.map((tag) => (
                                 <span
-                                    key={idx}
+                                    key={tag}
                                     className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded text-xs font-medium whitespace-nowrap"
                                 >
-                                    {tag}
+                                    {t(`tags.Tag_${tag}`)}
                                 </span>
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
-        </LocaleLink>
+        </Link>
     );
 }
 

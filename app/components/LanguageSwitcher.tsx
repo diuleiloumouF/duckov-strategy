@@ -2,14 +2,16 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { type Language, languageKeys } from '../i18n/config';
-import { getStoredLanguage, changeLanguage } from '../i18n/client';
-import { languages } from '@/app/constants';
+import { LANG_KEY, languages } from '@/app/constants';
 import {useRouter, usePathname} from '@/app/i18n/navigation';
-import { useLocale } from 'use-intl';
+import Cookies from 'js-cookie';
 
-export default function LanguageSwitcher() {
+type LanguageSwitcherProps = {
+    locale: Language;
+}
+
+export default function LanguageSwitcher({ locale } : LanguageSwitcherProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const locale = useLocale() as Language;
     const pathname = usePathname().replace(locale, '');
     const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
 
@@ -18,16 +20,15 @@ export default function LanguageSwitcher() {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     // 初始化设置一次
-    const handleLanguages = useCallback(async () => {
-        const stored = await getStoredLanguage();
-        setCurrentLang(stored);
-        await changeLanguage(stored);
+    const handleLanguages = useCallback(async (locale: Language) => {
+        setCurrentLang(locale);
+        Cookies.set(LANG_KEY, locale, { expires: 365 })
     }, []);
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        void handleLanguages();
-    }, [handleLanguages]);
+        void handleLanguages(locale);
+    }, [locale, handleLanguages]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -49,8 +50,7 @@ export default function LanguageSwitcher() {
     }, [isOpen]);
 
     const handleLanguageChange = async (lang: Language) => {
-        setCurrentLang(lang);
-        await changeLanguage(lang);
+        void handleLanguages(lang);
         setIsOpen(false);
         router.replace(pathWithoutLocale, {locale: lang as Language});
     };

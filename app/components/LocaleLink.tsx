@@ -12,5 +12,6 @@ export const  LocaleLink: React.FC<LocaleLinkProps> = ({ children, locale, href,
     if (!href){
         return <div {...(props as HTMLProps<HTMLDivElement>)}>{children}</div>
     }
-    return <Link href={`/${locale}${href}`} {...props}>{children}</Link>;
+    // console.log(href, locale, href);
+    return <Link href={href} locale={locale} {...props}>{children}</Link>;
 };

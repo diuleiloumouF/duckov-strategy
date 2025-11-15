@@ -43,6 +43,8 @@
     "RecoilScaleH": "水平后坐力",
     "RecoilRecoverTime": "后座恢复时间",
     "RecoilRecover": "后座恢复速度",
-    "FlashLight": "是否有手电/闪光灯"
+    "FlashLight": "是否有手电/闪光灯",
+    "ExplosionRange": "爆炸范围",
+    "ExplosionDamage": "爆炸伤害"
   }
 }

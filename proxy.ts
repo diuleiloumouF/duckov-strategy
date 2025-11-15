@@ -35,4 +35,5 @@ export const config = {
     matcher: [
         '/((?!api|_next/static|_next/image|locales|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.webp|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.ico$).*)',
     ]
+
 }

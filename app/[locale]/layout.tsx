@@ -1,36 +1,40 @@
 import type { Metadata } from 'next';
 import Header from '../components/Header';
 import '../globals.css';
-import { getLocale } from '../actions/cookies';
-import {NextIntlClientProvider} from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { Language } from '@/app/i18n/config';
 import { generateStaticParams } from '@/lib/getStatic';
 import { Analytics } from '@vercel/analytics/next';
+import { setRequestLocale } from 'next-intl/server';
+import { ThemeProvider } from '@/components/theme-provider';
 
-import {Geist, Geist_Mono} from "next/font/google";
+import { Geist, Geist_Mono } from 'next/font/google';
 import { LocaleRouter } from '@/app/types/global';
+import { PageParamsProps } from '@/app/types/router';
 
 const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
+    variable: '--font-geist-sans',
+    subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
 });
 
 const localeMap: Record<string, string> = {
     'zh-CN': 'zh_CN',
     'zh-TW': 'zh_TW',
-    'ja': 'ja_JP',
-    'en': 'en_US',
+    ja: 'ja_JP',
+    en: 'en_US',
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-    const t = await getTranslations();
-    const locale = await getLocale();
+export async function generateMetadata({
+    params,
+}: PageParamsProps): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale });
     const ogLocale = localeMap[locale] || 'zh_CN';
     const siteName = t('seo.site_name');
     const siteDescription = t('seo.site_description');
@@ -54,8 +58,8 @@ export async function generateMetadata(): Promise<Metadata> {
             languages: {
                 'zh-CN': '/zh-CN',
                 'zh-TW': '/zh-TW',
-                'ja': '/ja',
-                'en': '/en',
+                ja: '/ja',
+                en: '/en',
             },
         },
         openGraph: {
@@ -107,23 +111,39 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({
     children,
-    params
+    params,
 }: Readonly<LocaleRouter>) {
     const { locale } = await params;
 
+    const messages = await getMessages({ locale });
+    setRequestLocale(locale);
+
     return (
         <html lang={locale}>
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                <NextIntlClientProvider>
-                    <Header locale={locale as Language}/>
-                    {children}
-                    <Analytics />
-                </NextIntlClientProvider>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <NextIntlClientProvider locale={locale} messages={messages}>
+                        <Header locale={locale as Language} />
+                        {children}
+                        <Analytics />
+                    </NextIntlClientProvider>
+                </ThemeProvider>
             </body>
         </html>
     );
 }
 
-export { generateStaticParams }
+export { generateStaticParams };
+// 控制页面的渲染模式 // auto force-dynamic force-static error
+// export const dynamic = 'force-static';  // 强制静态渲染
+// export const revalidate = 86400; // 60秒后重新验证
 
-export const dynamicParams = false; // 添加这个
+// 动态参数的行为
+// export const dynamicParams = false; // 添加这个

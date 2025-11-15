@@ -1,28 +1,25 @@
 import { Monster } from '../types/monster';
-import { Item, KeyValue } from '../types/item';
+import { Item } from '../types/item';
 import { ItemLink } from '@/app/components/ItemCard';
 
 import { getTranslations } from 'next-intl/server';
 import { Language } from '@/app/i18n/config';
 import React from 'react';
 import { PREFETCH } from '@/app/constants';
+import { getMonsterName } from '@/app/utils/lang';
 
 type MonsterCardProps = {
     monster: Monster;
     items: Item[];
-    monsterLangs: KeyValue;
-    itemsLangs: KeyValue;
     locale: Language;
 };
 
 export default async function MonsterCard({
     monster,
     items,
-    monsterLangs,
-    itemsLangs,
     locale,
 }: MonsterCardProps) {
-    const t = await getTranslations();
+    const t = await getTranslations({locale});
 
     // item有2层爆率
     const dropItems = monster.itemsToGenerate
@@ -73,7 +70,7 @@ export default async function MonsterCard({
                 <div className="flex items-center gap-4 border-b border-gray-200 dark:border-gray-700 pb-4">
                     <div className="flex-1">
                         <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">
-                            {monsterLangs?.[monster.nameKey] || enName}
+                            {getMonsterName(t, monster)}
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                             {enName}
@@ -225,11 +222,11 @@ export default async function MonsterCard({
                                         ? undefined
                                         : mapping[ix % 3];
 
-                                    // 生成svg连起来
                                     return dropItem.itemPools.map(
                                         (itemPool, idx) => {
                                             return (
                                                 <ItemLink
+                                                    t={t}
                                                     // 暂时关闭vercel的预加载
                                                     prefetch={PREFETCH}
                                                     border={color}
@@ -273,7 +270,7 @@ export default async function MonsterCard({
                                                     item={
                                                         itemPool.item as unknown as Item
                                                     }
-                                                    itemsLangs={itemsLangs}
+                                                    // itemsLangs={itemsLangs}
                                                 />
                                             );
                                         }

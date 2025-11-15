@@ -2,22 +2,25 @@ import QuestList from '@/app/components/QuestList';
 import { IQuestGraph } from '@/app/types/quest';
 import QuestGraph from '@/app/components/QuesGraph';
 import { fetchAllByFile } from '@/app/utils/request';
-import { getTranslations } from 'next-intl/server';
 import QuestControls from '@/app/components/QuestControls';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { generateStaticParams } from '@/lib/getStatic';
 import { QuestType } from '@/app/constants/quest';
+import { PageParams } from '@/app/types/router';
+import { getTranslations } from 'next-intl/server';
 
 interface QuestsPageProps {
     searchParams: Promise<{
         search?: string;
         view?: QuestType;
     }>;
+    params: PageParams
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-    const t = await getTranslations();
+export async function generateMetadata({ params }: QuestsPageProps): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({locale});
 
     const title = t('seo.quests_title');
     const description = t('seo.quests_description');
@@ -35,12 +38,13 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-export default async function QuestsPage({ searchParams }: QuestsPageProps) {
-    const params = await searchParams;
-    const searchTerm = params.search || '';
-    const viewMode = params.view || QuestType.LIST;
+export default async function QuestsPage({ searchParams, params }: QuestsPageProps) {
+    const sParams = await searchParams;
+    const { locale } = await params;
+    const searchTerm = sParams.search || '';
+    const viewMode = sParams.view || QuestType.LIST;
     const questData = fetchAllByFile<IQuestGraph>('quest.json');
-    const t = await getTranslations();
+    const t = await getTranslations({ locale });
 
     if (!questData) {
         return (
@@ -101,4 +105,4 @@ export default async function QuestsPage({ searchParams }: QuestsPageProps) {
 }
 
 export { generateStaticParams };
-export const dynamicParams = false;
+// export const dynamicParams = false;

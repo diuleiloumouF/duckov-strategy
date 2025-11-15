@@ -3,12 +3,13 @@ import { fetchAllByFile } from '@/app/utils/request';
 import { GameAssets } from '@/app/types/game';
 import { getTranslations } from 'next-intl/server';
 import { generateStaticParams } from '@/lib/getStatic';
+import { PageParamsProps } from '@/app/types/router';
 
-export default async function Buff() {
+export default async function Buff({ params }: PageParamsProps) {
     const allBuffs = fetchAllByFile<GameAssets>('game_assets.json');
-
+    const { locale } = await params;
     const buffs = allBuffs.buffs;
-    const t = await getTranslations();
+    const t = await getTranslations({ locale });
 
     const safeGetI18 = (key: string) => {
         const hasI18 = t.has(`buffs.${key}`);

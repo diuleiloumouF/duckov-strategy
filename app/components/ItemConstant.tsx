@@ -7,12 +7,15 @@ import {
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { isNumeric } from '@xyflow/system';
+import { Language } from '@/app/i18n/config';
 
-type ItemConstantProps = {} & PrefabItem;
+type ItemConstantProps = {
+    locale: Language;
+} & PrefabItem;
 
-export const ItemConstant: React.FC<ItemConstantProps> = async({ base }) => {
+export const ItemConstant: React.FC<ItemConstantProps> = async({ base, locale }) => {
     const constans = base?.constants?.entries || [];
-    const t = await getTranslations();
+    const t = await getTranslations({ locale });
     return (
         <>
             {constans?.flatMap((constant) => {
@@ -40,10 +43,11 @@ export const ItemConstant: React.FC<ItemConstantProps> = async({ base }) => {
 
 export type ItemSlotsProps = {
     slots: string[];
+    locale: Language;
 };
 
-export const ItemSlots: React.FC<ItemSlotsProps> = async ({ slots }) => {
-    const t = await getTranslations();
+export const ItemSlots: React.FC<ItemSlotsProps> = async ({ slots, locale  }) => {
+    const t = await getTranslations({locale});
 
     return (
         <div>
@@ -105,7 +109,7 @@ export const ItemSlots: React.FC<ItemSlotsProps> = async ({ slots }) => {
                                     )}
                                 </div>
                                 <div className="px-4 py-2 border-slate-700">
-                                    <p className="text-white text-sm  text-center">
+                                    <p className="dark:text-white text-black text-sm  text-center">
                                         {t(`slot.accessories.${slot}`)}
                                     </p>
                                 </div>
@@ -119,11 +123,12 @@ export const ItemSlots: React.FC<ItemSlotsProps> = async ({ slots }) => {
 };
 
 type ItemAttributeProps = {
-    attrs: AttributeItem[]
+    attrs: AttributeItem[],
+    locale: Language,
 }
 
-export const ItemAttribute: React.FC<ItemAttributeProps> = async ({ attrs }) => {
-    const t = await getTranslations();
+export const ItemAttribute: React.FC<ItemAttributeProps> = async ({ attrs, locale }) => {
+    const t = await getTranslations({locale});
 
     return (
         <div>

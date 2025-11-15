@@ -2,8 +2,7 @@ import ItemCard from '@/app/components/ItemCard';
 import Pagination from '@/app/components/Pagination';
 import SearchFilter from '@/app/components/SearchFilter';
 import { Item } from '@/app/types/item';
-import { fetchAllByFile, generateKeyValueFetch } from '@/app/utils/request';
-import { ITEM_KEY } from '@/app/constants';
+import { fetchAllByFile } from '@/app/utils/request';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
@@ -12,21 +11,20 @@ import { PageParams } from '@/app/types/router';
 
 const ITEMS_PER_PAGE = 10; // 分页
 
-const fetchItemI18 = generateKeyValueFetch(ITEM_KEY);
-
 interface HomeProps {
     searchParams: Promise<{ page?: string; search?: string; tags?: string }>;
     params: PageParams;
 }
 
-export async function generateMetadata({ searchParams }: HomeProps): Promise<Metadata> {
-    const t = await getTranslations();
-    const params = await searchParams;
+export async function generateMetadata({ searchParams, params }: HomeProps): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale });
+    const sParams = await searchParams;
     const allData = fetchAllByFile<Item[]>('items.json');
     const itemsCount = allData.length;
-    const currentPage = Number(params.page) || 1;
-    const searchTerm = params.search || '';
-    const selectedTags = params.tags?.split(',').filter(Boolean) || [];
+    const currentPage = Number(sParams.page) || 1;
+    const searchTerm = sParams.search || '';
+    const selectedTags = sParams.tags?.split(',').filter(Boolean) || [];
 
     let title = t('seo.inventory_title');
     let description = t('seo.inventory_description', {
@@ -71,24 +69,11 @@ export default async function Home({ searchParams, params }: HomeProps) {
     const currentPage = Number(sParams.page) || 1;
     const searchTerm = sParams.search?.toLowerCase() || '';
     const selectedTags = sParams.tags?.split(',').filter(Boolean) || [];
-    const t = await getTranslations();
+    const t = await getTranslations({ locale });
 
     // Fetch all data
     const allData = fetchAllByFile<Item[]>('items.json');
-    const langs = fetchItemI18(locale);
-    // const tags = fetchTags(locale);
-
-    // Prepare quality translations
-    const qualityTranslations = {
-        'quality.common': t('quality.common'),
-        'quality.uncommon': t('quality.uncommon'),
-        'quality.rare': t('quality.rare'),
-        'quality.epic': t('quality.epic'),
-        'quality.legendary': t('quality.legendary'),
-        'quality.mythic': t('quality.mythic'),
-        'quality.special': t('quality.special'),
-        'quality.system': t('quality.system'),
-    };
+    // const langs = fetchItemI18(locale);
 
     // Collect all unique tags for filter dropdown
     const allUniqueTags = Array.from(
@@ -108,7 +93,7 @@ export default async function Home({ searchParams, params }: HomeProps) {
             const itemId = item.id.toString();
             const itemName = item.name.toLowerCase();
             const itemDisplayName = (
-                langs?.[item.displayName] || ''
+                t(`items.${item.displayName}`) || ''
             ).toLowerCase();
 
             return (
@@ -151,7 +136,8 @@ export default async function Home({ searchParams, params }: HomeProps) {
                         {t('inventory.title')}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
-                        {t('common.total')}: {allData.length} {t('inventory.items')}
+                        {t('common.total')}: {allData.length}{' '}
+                        {t('inventory.items')}
                         {totalItems !== allData.length &&
                             ` | ${t('common.filtered')}: ${totalItems} ${t('inventory.items')}`}
                         {totalItems > 0 &&
@@ -175,9 +161,7 @@ export default async function Home({ searchParams, params }: HomeProps) {
                             {paginatedData.map((item: Item) => (
                                 <ItemCard
                                     locale={locale}
-                                    langs={langs}
                                     item={item}
-                                    qualityTranslations={qualityTranslations}
                                     key={item.id}
                                 />
                             ))}

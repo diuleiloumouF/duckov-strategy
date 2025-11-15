@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
-import { LocaleLink } from '@/app/components/LocaleLink';
+import { LocaleLink } from '@/app/components/ClientProxy';
 import { Language } from '@/app/i18n/config';
 
 type HeaderProps = {
@@ -12,7 +12,8 @@ type HeaderProps = {
 
 export default function Header({ locale }: HeaderProps) {
     const pathname = usePathname();
-    const t = useTranslations();
+
+    const t =  useTranslations();
 
     const navLinks = [
         { href: '/', label: t('nav.home') },
@@ -45,10 +46,10 @@ export default function Header({ locale }: HeaderProps) {
                     <div className="flex items-center gap-4">
                         {/* gap-1 会导致 lg:flex失效 */}
                         <div className="hidden lg:flex items-center">
-                            {navLinks.map((link) => (
+                            {navLinks.map((link, idx) => (
                                 <LocaleLink
                                     locale={locale}
-                                    key={link.href}
+                                    key={idx}
                                     href={link.href}
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                         isActive(link.href)
@@ -60,7 +61,7 @@ export default function Header({ locale }: HeaderProps) {
                                 </LocaleLink>
                             ))}
                         </div>
-                        <LanguageSwitcher />
+                        <LanguageSwitcher locale={locale} />
                     </div>
                 </div>
             </nav>

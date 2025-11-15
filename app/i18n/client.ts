@@ -1,12 +1,10 @@
 import i18n from 'i18next';
 
 import { initReactI18next } from 'react-i18next';
-import { defaultLanguage, type Language } from './config';
-import { getCookies, setCookie } from '@/app/actions/cookies';
-import { LANG_KEY, languages } from '@/app/constants';
+import { defaultLanguage } from './config';
+import { languages } from '@/app/constants';
 import Backend from 'i18next-http-backend';
 
-// const runsOnServerSide = typeof window === 'undefined';
 
 // https://react.i18next.com/latest/i18nextprovider
 // https://github.com/i18next/react-i18next/blob/master/example/react-component-lib/src/i18n.js
@@ -41,21 +39,3 @@ i18n
     });
 
 export default i18n;
-
-
-// i18n.on('languageChanged', async (lang) => {
-//     console.log('i18程序触发change', lang);
-//     await changeLanguage(lang as Language);
-// });
-
-export async function changeLanguage(lang: Language) {
-    if (i18n.language !== lang) {
-        await i18n.changeLanguage(lang);
-        await setCookie(LANG_KEY, lang);
-    }
-}
-
-export async function getStoredLanguage(): Promise<Language> {
-    const defaultLang = await getCookies(LANG_KEY) || defaultLanguage;
-    return defaultLang as Language;
-}
