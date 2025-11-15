@@ -8,17 +8,17 @@ export default function robots(): MetadataRoute.Robots {
             {
                 userAgent: '*',
                 allow: '/',
-                disallow: ['/api/', '/_next/', '/admin/'], // 禁止爬取 API 路由和管理页面
+                disallow: ['/api/', '/locales', '/_next/', '/admin/'], // 禁止爬取 API 路由和管理页面
             },
             {
                 userAgent: 'Googlebot',
                 allow: '/',
-                disallow: ['/api/', '/_next/'],
+                disallow: ['/api/', '/locales', '/_next/'],
             },
             {
                 userAgent: 'Bingbot',
                 allow: '/',
-                disallow: ['/api/', '/_next/'],
+                disallow: ['/api/', '/locales', '/_next/'],
             },
         ],
         sitemap: `${baseUrl}/sitemap.xml`,
