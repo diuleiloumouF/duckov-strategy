@@ -1,1 +1,1 @@
-{"base":{"typeID":52,"displayName":"Item_Detergent","icon":"Detergent.webp","maxStackCount":1,"value":102,"quality":1,"weight":0.53,"tags":["Daily","Bait"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":52,"displayName":"Item_Detergent","icon":"Detergent.webp","maxStackCount":1,"value":102,"quality":1,"weight":0.53,"tags":["Daily","Bait"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"FishingTime","display":0,"baseValue":null,"value":-0.15},{"key":"FishingQualityFactor","display":0,"baseValue":null,"value":-0.9}]}}

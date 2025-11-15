@@ -1,1 +1,1 @@
-{"base":{"typeID":431,"displayName":"Item_Totem_ElecResist","icon":"Totem.webp","maxStackCount":1,"value":2000,"quality":3,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":431,"displayName":"Item_Totem_ElecResist","icon":"Totem.webp","maxStackCount":1,"value":2000,"quality":3,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"ElementFactor_Electricity","display":1,"baseValue":null,"value":-0.12}]}}

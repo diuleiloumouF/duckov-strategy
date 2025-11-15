@@ -143,7 +143,7 @@ export const ItemAttribute: React.FC<ItemAttributeProps> = async ({ attrs, local
                                 {t(`entry.${attr.key}`)}
                             </p>
                             <p className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                                {attr.baseValue}
+                                {typeof attr.baseValue !== 'number' ? attr?.value:attr.baseValue}
                             </p>
                         </div>
                     );

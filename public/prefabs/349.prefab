@@ -1,1 +1,1 @@
-{"base":{"typeID":349,"displayName":"Item_Fish3","icon":"fish.webp","maxStackCount":1,"value":83,"quality":94,"weight":2.0,"tags":["Fish"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"FishingDifficulty","display":0,"baseValue":3.0}]}}
+{"base":{"typeID":349,"displayName":"Item_Fish3","icon":"fish.webp","maxStackCount":1,"value":83,"quality":94,"weight":2.0,"tags":["Fish"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"FishingDifficulty","display":0,"baseValue":3.0,"value":null}]}}

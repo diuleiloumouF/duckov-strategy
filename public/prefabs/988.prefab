@@ -1,1 +1,1 @@
-{"base":{"typeID":988,"displayName":"Item_Totem_MeleeCritRate","icon":"Totem.webp","maxStackCount":1,"value":350,"quality":1,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":988,"displayName":"Item_Totem_MeleeCritRate","icon":"Totem.webp","maxStackCount":1,"value":350,"quality":1,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"MeleeCritRateGain","display":1,"baseValue":null,"value":0.5}]}}

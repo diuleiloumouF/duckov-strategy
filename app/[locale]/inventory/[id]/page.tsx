@@ -95,7 +95,7 @@ export default async function ItemDetailPage(
     // Find monster.ts drop sources
     const lootData = fetchAllByFile<MonsterData>('loot.json');
     const isGunPrefab = !item.tags.includes("DestroyOnLootBox") && item.tags.includes("Gun");
-    const gunItem = isGunPrefab ? fetchAllByFile<PrefabItem>(`prefabs/${id}.prefab`) : undefined;
+    const gunItem = fetchAllByFile<PrefabItem>(`prefabs/${id}.prefab`);
 
     const monsterDrops = findMonsterDropSources(item.typeID, lootData);
     // const monsterLangs = fetchCharacter(locale as Language);
@@ -214,7 +214,7 @@ export default async function ItemDetailPage(
                             {monsterDrops.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {monsterDrops.map((drop, idx) => {
-                                        const monsterName = getMonsterName(t, drop);
+                                        const monsterName = getMonsterName(t, drop.monster);
                                         return (
                                             <div
                                                 key={idx}

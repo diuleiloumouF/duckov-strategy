@@ -1160,3 +1160,7 @@ Item_Muzzle_SHT_SIL_1,霰弹枪重型消音器
 Item_Totem_PhysicResist,图腾：抗物I
 Item_Totem_PhysicResist_Desc,免疫流血
 Item_Totem_Efficiency_2,图腾：效率II
+Item_RedEye,RedEye
+Item_EGun_Magic_Red,EGun_Magic_Red
+Item_Bait2,Bait2
+EGun_SHOT_Storm_NoGraphic,EGun_SHOT_Storm_NoGraphic

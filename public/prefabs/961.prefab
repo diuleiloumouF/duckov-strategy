@@ -1,1 +1,1 @@
-{"base":{"typeID":961,"displayName":"Item_Totem_MaxHealth_2","icon":"Totem.webp","maxStackCount":1,"value":1000,"quality":2,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":961,"displayName":"Item_Totem_MaxHealth_2","icon":"Totem.webp","maxStackCount":1,"value":1000,"quality":2,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"MaxHealth","display":1,"baseValue":null,"value":15.0}]}}

@@ -1,1 +1,1 @@
-{"base":{"typeID":956,"displayName":"Item_Totem_FireResist","icon":"Totem.webp","maxStackCount":1,"value":2000,"quality":3,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":956,"displayName":"Item_Totem_FireResist","icon":"Totem.webp","maxStackCount":1,"value":2000,"quality":3,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"ElementFactor_Fire","display":1,"baseValue":null,"value":-0.12}]}}

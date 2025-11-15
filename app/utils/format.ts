@@ -16,10 +16,15 @@ export function parseVariable(variable: ItemVariable) {
         }
     } else {
         // base64 格式
-        const binaryString = atob(data);
-        bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
+        try {
+            const binaryString = atob(data);
+            bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            // eslint-disable-next-line
+        } catch (_) {
+            return `${data}`
         }
     }
 

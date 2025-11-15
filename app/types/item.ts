@@ -87,6 +87,7 @@ export interface AttributeItem {
     key: string;
     display?: number;
     baseValue?: number;
+    value?: number;
 }
 
 interface ItemSlotsMonoBehaviour {

@@ -1,1 +1,1 @@
-{"base":{"typeID":948,"displayName":"Item_Totem_Attack_2","icon":"Totem.webp","maxStackCount":1,"value":2000,"quality":999,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":948,"displayName":"Item_Totem_Attack_2","icon":"Totem.webp","maxStackCount":1,"value":2000,"quality":999,"weight":0.3,"tags":["Totem","DontDropOnDeadInSlot"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"Attack","display":1,"baseValue":null,"value":2.0}]}}

@@ -41,6 +41,19 @@ export default getRequestConfig(async ({ locale  }) => {
             characters: monstersLocales,
             ...(await import(`../locales/${lang}/common.json`)).default,
             ...(await import(`../locales/${lang}/entry.json`)).default,
+        },
+        // 关键配置：处理缺失的翻译
+        onError: (error) => {
+            if (error.code === 'MISSING_MESSAGE') {
+                console.warn('Missing translation:', error.originalMessage);
+                // 不抛出错误，只警告
+            } else {
+                console.error(error);
+            }
+        },
+        getMessageFallback: ({key}) => {
+            // 返回 fallback 内容而不是崩溃
+            return `${key}`;
         }
     };
 });

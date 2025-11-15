@@ -1,1 +1,1 @@
-{"base":{"typeID":402,"displayName":"Item_GPU_Potato","icon":"GPUPotato.webp","maxStackCount":1,"value":800,"quality":9,"weight":1.2,"tags":["Electric","Computer","ComputerParts_GPU"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":402,"displayName":"Item_GPU_Potato","icon":"GPUPotato.webp","maxStackCount":1,"value":800,"quality":9,"weight":1.2,"tags":["Electric","Computer","ComputerParts_GPU"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"Performance","display":0,"baseValue":null,"value":0.1}]}}

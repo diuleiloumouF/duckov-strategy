@@ -1,1 +1,1 @@
-{"base":{"typeID":1133,"displayName":"Item_DicedMango","icon":"waffle.webp","maxStackCount":3,"value":212,"quality":95,"weight":0.3,"tags":["Bait"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":1133,"displayName":"Item_DicedMango","icon":"waffle.webp","maxStackCount":3,"value":212,"quality":95,"weight":0.3,"tags":["Bait"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"FishingQualityFactor","display":0,"baseValue":null,"value":1.0}]}}

@@ -128,7 +128,7 @@
     "inventory_search_description": "搜尋\"{term}\"的物品結果 - 逃離鴨科夫物品圖鑑",
     "inventory_filter_title": "篩選: {tags} - 物品圖鑑",
     "inventory_filter_description": "查看標籤為\"{tags}\"的物品 - 逃離鴨科夫物品圖鑑",
-    "inventory_page_title": "物品圖鑑 - 第{{page}}頁",
+    "inventory_page_title": "物品圖鑑 - 第{page}頁",
     "inventory_keywords": "物品圖鑑,裝備資訊,道具數據,物品搜尋,逃離鴨科夫",
     "monsters_title": "怪物圖鑑",
     "monsters_description": "逃離鴨科夫怪物圖鑑 - 查看遊戲中所有{count}個怪物的詳細資訊，包括掉落物品、屬性數據等。幫助玩家更好地了解敵人。",

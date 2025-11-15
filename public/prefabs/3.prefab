@@ -1,1 +1,1 @@
-{"base":{"typeID":3,"displayName":"Item_Gem","icon":"star.webp","maxStackCount":1,"value":4587,"quality":4,"weight":0.19,"tags":["Gem","Luxury"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":3,"displayName":"Item_Gem","icon":"star.webp","maxStackCount":1,"value":4587,"quality":4,"weight":0.19,"tags":["Gem","Luxury"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"Damage","display":1,"baseValue":null,"value":0.15}]}}

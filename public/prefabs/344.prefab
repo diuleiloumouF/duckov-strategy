@@ -1,1 +1,1 @@
-{"base":{"typeID":344,"displayName":"Item_Bait1","icon":"waffle.webp","maxStackCount":3,"value":212,"quality":93,"weight":0.3,"tags":["Bait"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":344,"displayName":"Item_Bait1","icon":"waffle.webp","maxStackCount":3,"value":212,"quality":93,"weight":0.3,"tags":["Bait"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"FishingQualityFactor","display":0,"baseValue":null,"value":0.0}]}}

@@ -1,1 +1,1 @@
-{"base":{"typeID":514,"displayName":"Item_Stock_AR_SCA_3","icon":"Pfb_Stock_AR_SCA_3_1.webp","maxStackCount":1,"value":500,"quality":2,"weight":0.2,"tags":["Accessory","Stock","GunType_AR"],"constants":{"entries":[]}},"slots":null,"attributes":null}
+{"base":{"typeID":514,"displayName":"Item_Stock_AR_SCA_3","icon":"Pfb_Stock_AR_SCA_3_1.webp","maxStackCount":1,"value":500,"quality":2,"weight":0.2,"tags":["Accessory","Stock","GunType_AR"],"constants":{"entries":[]}},"slots":null,"attributes":{"list":[{"key":"ScatterFactor","display":1,"baseValue":null,"value":-0.13}]}}
