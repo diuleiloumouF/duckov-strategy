@@ -3,7 +3,8 @@ import { Item } from '../types/item';
 import { getQualityConfig } from '@/app/constants/quality';
 import { Language } from '@/app/i18n/config';
 import { getTranslations } from 'next-intl/server';
-import Link, { LinkProps } from 'next/link';
+import { LinkProps } from 'next/link';
+import { Link } from '@/app/i18n/navigation';
 import { PREFETCH } from '@/app/constants';
 import { getItemKey, getItemName, TrFn } from '@/app/utils/lang';
 

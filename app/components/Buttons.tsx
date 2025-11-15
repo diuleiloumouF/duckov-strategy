@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/app/i18n/navigation';
 
 export const GoBack = () => {
     const router = useRouter();

@@ -113,6 +113,8 @@ export default async function RootLayout({
     children,
     params,
 }: Readonly<LocaleRouter>) {
+    const isDev = process.env.NODE_ENV === 'development'
+
     const { locale } = await params;
 
     const messages = await getMessages({ locale });
@@ -132,7 +134,9 @@ export default async function RootLayout({
                     <NextIntlClientProvider locale={locale} messages={messages}>
                         <Header locale={locale as Language} />
                         {children}
-                        <Analytics />
+                        {!isDev && (
+                            <Analytics />
+                        )}
                     </NextIntlClientProvider>
                 </ThemeProvider>
             </body>

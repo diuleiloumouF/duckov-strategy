@@ -1,4 +1,5 @@
-import Link, { LinkProps } from 'next/link';
+import { LinkProps } from 'next/link';
+import { Link } from '@/app/i18n/navigation';
 import React, { HTMLProps, ReactNode } from 'react';
 import { Language } from '@/app/i18n/config';
 

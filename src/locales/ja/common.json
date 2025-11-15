@@ -3,7 +3,8 @@
     "home": "ホーム",
     "inventory": "アイテム",
     "monsters": "モンスター",
-    "quests": "クエスト"
+    "quests": "クエスト",
+    "archived": "セーブする"
   },
   "inventory": {
     "title": "アイテム一覧",

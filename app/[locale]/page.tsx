@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { PageParamsProps } from '@/app/types/router';
+import { Link } from '@/app/i18n/navigation';
 
 export async function generateMetadata({ params }: PageParamsProps): Promise<Metadata> {
     const { locale } = await params;
@@ -52,6 +52,7 @@ export default async function Home({ params}: PageParamsProps) {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mt-8">
                     <Link
+                        locale={locale}
                         href="/inventory"
                         className="group relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500"
                     >
@@ -67,6 +68,7 @@ export default async function Home({ params}: PageParamsProps) {
                     </Link>
 
                     <Link
+                        locale={locale}
                         href="/monsters"
                         className="group relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500"
                     >
@@ -82,6 +84,7 @@ export default async function Home({ params}: PageParamsProps) {
                     </Link>
 
                     <Link
+                        locale={locale}
                         href="/quests"
                         className="group relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500"
                     >
@@ -96,6 +99,7 @@ export default async function Home({ params}: PageParamsProps) {
                         </div>
                     </Link>
                     <Link
+                        locale={locale}
                         href="/buffs"
                         className="group relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500"
                     >
