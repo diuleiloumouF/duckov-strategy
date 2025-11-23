@@ -1,5 +1,4 @@
-﻿key,value,来源小黑盒 雾东军: 58032429
-Item_Helmat_SBossElec_ResSpace,比利头盔
+﻿Item_Helmat_SBossElec_ResSpace,比利头盔
 Item_NailBat,锋利狼牙棒
 Item_Crown,皇冠
 Item_Character,躯壳
